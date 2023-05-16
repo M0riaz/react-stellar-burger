@@ -1,0 +1,30 @@
+.section {
+    display: flex;
+    flex-direction: column;
+    /*height: 656px;*/
+    margin-top: 100px;
+}
+.element{
+
+}
+.price{
+    display: flex;
+    align-items: center;
+}
+.priceContainer{
+    display: flex;
+    justify-content: flex-end;
+}
+.ingredients{
+    overflow-y: scroll;
+    height: 480px;
+}
+.ingredients::-webkit-scrollbar {
+    width: 8px;
+}
+.ingredients::-webkit-scrollbar-track{
+    background-color: #2F2F37;
+}
+.ingredients::-webkit-scrollbar-thumb {
+    background-color:  #8585AD;
+}
