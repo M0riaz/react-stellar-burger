@@ -1,0 +1,40 @@
+.header {
+    display: flex;
+    justify-content: center;
+    background-color: #1C1C21;
+    width: 1920px;
+    height: 88px;
+    margin: 40px auto 0 auto;
+}
+.link{
+    text-decoration: none;
+    color: #f2f2f3;
+}
+.link:visited {
+    color: #F2F2F3;
+}
+.linkInactive{
+    text-decoration: none;
+    color: #8585AD;
+}
+.header__box {
+    width: 1280px;
+    display: grid;
+    grid-template-columns: 383px 1fr 1fr;
+    column-gap: 106px;
+    align-items: center;
+}
+
+.header__navigation {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.header__item {
+    display: flex;
+    align-items: center;
+}
+
+.header__item:last-child {
+    justify-content: flex-end;
+}
