@@ -9,8 +9,9 @@ import ModalOverlay from "../ModalOverlay/ModalOverlay";
 
 const modalRoot = document.getElementById("react-modals");
 
-function Modal(props) {
-    const [ modalActive, setModalActive] = React.useState(true)
+function Modal({modalActive,setModalActive, children }) {
+    // console.log(props)
+    // const [ modalActive, setModalActive] = React.useState(true)
     const [overlayActive, setOverlayActive] = React.useState(true);
 
     const handleKeyDown = React.useCallback((e) => {
@@ -43,7 +44,7 @@ function Modal(props) {
                             <CloseIcon type="primary" />
                         </button>
                         <div>
-                            {props.children}
+                            {children}
                         </div>
                     </div>
                 </div>

@@ -16,7 +16,7 @@ import OrderDetails from "../OrderDetails/OrderDetails";
 function BurgerConstructor({ data }) {
 
     const [modalActive, setModalActive] = React.useState(false )
-
+// console.log(modalActive)
 
     const activeBun = data.find((item) => item.type === 'bun');
     const ingredients = data.filter((item) => item.type !== 'bun');
@@ -41,7 +41,7 @@ function BurgerConstructor({ data }) {
         <div>
             <section className={`${styles.section} ml-5 pl-5`}>
                 {modalActive && <Modal modalActive={modalActive} setModalActive={setModalActive}>
-                    <OrderDetails/>
+                        <OrderDetails/>
                 </Modal>
                     }
                 <div className={`${styles.element} ml-4 pl-5 mb-4`}>
@@ -76,7 +76,7 @@ function BurgerConstructor({ data }) {
                         <CurrencyIcon type="primary"/>
                     </div>
                     <div  className='ml-5 pl-5'>
-                        <Button htmlType="button" type="primary" size="large" onClick={() => setModalActive(!modalActive)}>
+                        <Button htmlType="button" type="primary" size="large" onClick={() => setModalActive(true)}>
                             Оформить заказ
                         </Button>
                     </div>

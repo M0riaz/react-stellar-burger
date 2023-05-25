@@ -43,5 +43,5 @@ return(
 export default IngredientDetails
 
 IngredientDetails.propTypes = {
-    data: PropTypes.object.isRequired,
+    data: ingredientPropType,
 };

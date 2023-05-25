@@ -5,10 +5,14 @@ import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import React, {useEffect} from 'react';
 
 function App() {
-    const [data, setData] = React.useState([])
+    const [data, setData] = React.useState([]);
+    const url = 'https://norma.nomoreparties.space/api/ingredients';
+    const checkResponse = (res) => {
+        return res.ok ? res.json() : res.json().then((err)=> Promise.reject(err))
+    };
     useEffect(() => {
-        fetch('https://norma.nomoreparties.space/api/ingredients')
-            .then(res => res.json())
+        fetch(url)
+            .then(checkResponse)
             .then(res => setData(res.data))
             .catch(err => console.log(err))
     },[])
