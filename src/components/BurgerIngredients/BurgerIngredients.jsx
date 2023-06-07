@@ -3,14 +3,16 @@ import {CurrencyIcon, Tab, Counter} from '@ya.praktikum/react-developer-burger-u
 import React from 'react';
 import PropTypes from 'prop-types';
 import {ingredientPropType} from '../../utils/prop-types'
+import Modal from "../Modal/Modal";
+import IngredientDetails from "../IngredientDetails/IngredientDetails";
 
 
 function BurgerElement({data}) {
-
+    const [modalActive, setModalActive] = React.useState(false )
 
     return (
-        <div className={styles.container}>
-            <img className={styles.image} src={data.image} alt={data.name}/>
+        <div className={styles.container} onClick={() => setModalActive(!modalActive)}>
+            <img className={styles.image} src={data.image} alt={data.name} />
             <div className={styles.info}>
                 <div className={styles.price}>
                     <p className="text text_type_digits-default pt-1 mr-2">{data.price}</p>
@@ -21,13 +23,17 @@ function BurgerElement({data}) {
                 </div>
             </div>
             <Counter count={0} size="default"/>
+            {modalActive && <Modal modalActive={modalActive} setModalActive={setModalActive}>
+                <IngredientDetails data={data}/>
+            </Modal>
+            }
         </div>
     )
 
 }
 
 
-export function BurgerIngredients(props) {
+ function BurgerIngredients(props) {
 
     const [current, setCurrent] = React.useState('bun');
 
@@ -37,6 +43,9 @@ export function BurgerIngredients(props) {
 
     return (
         <section className={styles.section}>
+
+
+
             <h1 className='text text_type_main-large pt-5 mt-5'>
                 Соберите бургер
             </h1>
@@ -78,6 +87,8 @@ export function BurgerIngredients(props) {
         </section>
     )
 }
+
+export default React.memo(BurgerIngredients);
 
 BurgerIngredients.propTypes = {
     data: PropTypes.arrayOf(ingredientPropType).isRequired
