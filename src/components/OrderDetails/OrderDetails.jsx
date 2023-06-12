@@ -4,15 +4,13 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import {retry} from "@reduxjs/toolkit/query";
 import done from '../../images/done.svg'
-
-
-
-function OrderDetails (){
+import PropTypes from 'prop-types';
+function OrderDetails ({ orderNumber }){
     return (
             <div >
                 <div className={styles.container}>
                     <h1 className='text text_type_digits-large mt-30 '>
-                        034536
+                        {orderNumber}
                     </h1>
                     <p className="text text_type_main-medium mt-8">
                         идентификатор заказа
@@ -30,5 +28,9 @@ function OrderDetails (){
         )
 
 }
+
+OrderDetails.propTypes = {
+    orderNumber: PropTypes.number,
+};
 
 export default OrderDetails

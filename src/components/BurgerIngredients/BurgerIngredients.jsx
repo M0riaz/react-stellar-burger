@@ -5,13 +5,27 @@ import PropTypes from 'prop-types';
 import {ingredientPropType} from '../../utils/prop-types'
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
-
+import {BurgerConstructorContext} from "../../services/BurgerConstructorContext";
 
 function BurgerElement({data}) {
-    const [modalActive, setModalActive] = React.useState(false )
+    const [modalActive, setModalActive] = React.useState(false );
+    const { addIngredient, setActiveBun } = React.useContext(BurgerConstructorContext);
+
+    const handleIngredientClick = () => {
+        if (data.type !== "bun") {
+            addIngredient(data);
+        } else {
+            setActiveBun(data);
+        }
+    };
 
     return (
-        <div className={styles.container} onClick={() => setModalActive(!modalActive)}>
+        <div className={styles.container}
+              onClick={() => {
+                  handleIngredientClick();
+                 // setModalActive(!modalActive)
+               }}>
+
             <img className={styles.image} src={data.image} alt={data.name} />
             <div className={styles.info}>
                 <div className={styles.price}>
@@ -33,19 +47,16 @@ function BurgerElement({data}) {
 }
 
 
- function BurgerIngredients(props) {
-
+ function BurgerIngredients() {
+    const {data} = React.useContext(BurgerConstructorContext);
     const [current, setCurrent] = React.useState('bun');
 
-    const bun = props.data.filter((item) => item.type === 'bun');
-    const main = props.data.filter((item) => item.type === 'main');
-    const sauce = props.data.filter((item) => item.type === 'sauce');
+    const bun = data.filter((item) => item.type === 'bun');
+    const main = data.filter((item) => item.type === 'main');
+    const sauce = data.filter((item) => item.type === 'sauce');
 
     return (
         <section className={styles.section}>
-
-
-
             <h1 className='text text_type_main-large pt-5 mt-5'>
                 Соберите бургер
             </h1>
@@ -72,15 +83,15 @@ function BurgerElement({data}) {
 
                 <h2 className='text text_type_main-medium pt-5 mt-5'>Соусы</h2>
                 <div className={styles.box}>
-                    {sauce.map((item) => (
-                        <BurgerElement data={item} key={item._id}/>
+                    {sauce.map((item, index) => (
+                        <BurgerElement data={item} key={index} />
                     ))}
                 </div>
 
                 <h2 className='text text_type_main-medium pt-5 mt-5'>Начинки</h2>
                 <div className={styles.box}>
-                    {main.map((item) => (
-                        <BurgerElement data={item} key={item._id}/>
+                    {main.map((item, index) => (
+                        <BurgerElement data={item} key={index}/>
                     ))}
                 </div>
             </div>
@@ -91,5 +102,5 @@ function BurgerElement({data}) {
 export default React.memo(BurgerIngredients);
 
 BurgerIngredients.propTypes = {
-    data: PropTypes.arrayOf(ingredientPropType).isRequired
+    data: PropTypes.arrayOf(ingredientPropType)
 };

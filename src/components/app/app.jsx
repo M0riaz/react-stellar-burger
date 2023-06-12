@@ -4,7 +4,22 @@ import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import React, {useEffect} from 'react';
 
+
+import {BurgerConstructorContext} from "../../services/BurgerConstructorContext";
+
 function App() {
+
+    const [selectedIngredients, setSelectedIngredients] = React.useState([]);
+    const [selectedBun, setSelectedBun] = React.useState(null);
+    const addIngredient = (ingredient) => {
+        setSelectedIngredients((prevIngredients) => [...prevIngredients, ingredient]
+        );
+    };
+
+    const setActiveBun = (bun) => {
+        setSelectedBun(bun);
+    }
+
     const [data, setData] = React.useState([]);
     const url = 'https://norma.nomoreparties.space/api/ingredients';
     const checkResponse = (res) => {
@@ -18,15 +33,26 @@ function App() {
     },[])
 
 
-
     return (
-        <div className={styles.app}>
-            <AppHeader/>
-            <main className={styles.main}>
-                <BurgerIngredients data={data}/>
-                <BurgerConstructor data={data}/>
-            </main>
-        </div>
+
+    <div className={styles.app}>
+        <AppHeader/>
+        <main className={styles.main}>
+            { data.length &&
+                <BurgerConstructorContext.Provider value={{
+                    data,
+                    addIngredient,
+                    selectedIngredients,
+                    selectedBun,
+                    setActiveBun,
+                }} >
+                    <BurgerIngredients/>
+                    <BurgerConstructor/>
+                </BurgerConstructorContext.Provider>
+            }
+        </main>
+    </div>
+
     );
 }
 
