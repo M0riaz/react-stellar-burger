@@ -1,8 +1,6 @@
 import styles from './burgerIngredients.module.css'
 import {CurrencyIcon, Tab, Counter} from '@ya.praktikum/react-developer-burger-ui-components';
 import React from 'react';
-import PropTypes from 'prop-types';
-import {ingredientPropType} from '../../utils/prop-types'
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import {BurgerConstructorContext} from "../../services/BurgerConstructorContext";
@@ -23,7 +21,7 @@ function BurgerElement({data}) {
         <div className={styles.container}
               onClick={() => {
                   handleIngredientClick();
-                 // setModalActive(!modalActive)
+                  setModalActive(!modalActive)
                }}>
 
             <img className={styles.image} src={data.image} alt={data.name} />
@@ -43,9 +41,7 @@ function BurgerElement({data}) {
             }
         </div>
     )
-
 }
-
 
  function BurgerIngredients() {
     const {data} = React.useContext(BurgerConstructorContext);
@@ -61,7 +57,7 @@ function BurgerElement({data}) {
                 Соберите бургер
             </h1>
             <nav className='mt-5'>
-                <div style={{display:"flex"}}>
+                <div className={styles.item}>
                     <Tab value="bun" active={current === 'bun'} onClick={setCurrent}>
                         Булки
                     </Tab>
@@ -83,15 +79,15 @@ function BurgerElement({data}) {
 
                 <h2 className='text text_type_main-medium pt-5 mt-5'>Соусы</h2>
                 <div className={styles.box}>
-                    {sauce.map((item, index) => (
-                        <BurgerElement data={item} key={index} />
+                    {sauce.map((item) => (
+                        <BurgerElement data={item} key={item._id} />
                     ))}
                 </div>
 
                 <h2 className='text text_type_main-medium pt-5 mt-5'>Начинки</h2>
                 <div className={styles.box}>
-                    {main.map((item, index) => (
-                        <BurgerElement data={item} key={index}/>
+                    {main.map((item) => (
+                        <BurgerElement data={item} key={item._id}/>
                     ))}
                 </div>
             </div>
@@ -100,7 +96,3 @@ function BurgerElement({data}) {
 }
 
 export default React.memo(BurgerIngredients);
-
-BurgerIngredients.propTypes = {
-    data: PropTypes.arrayOf(ingredientPropType)
-};

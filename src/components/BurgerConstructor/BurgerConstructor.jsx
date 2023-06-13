@@ -5,13 +5,10 @@ import {
     Button,
     ConstructorElement,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
-import { ingredientPropType } from '../../utils/prop-types';
 import React, {useEffect} from "react";
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
-//import {placeOrder} from '../fetch/placeOrder'
-
+import {BASE_URL, checkResponse} from '../../utils/url-API'
 import {BurgerConstructorContext} from "../../services/BurgerConstructorContext";
 
 
@@ -22,17 +19,8 @@ function BurgerConstructor() {
     const { data, selectedIngredients, selectedBun} = React.useContext(BurgerConstructorContext);
     const [orderNumber, setOrderNumber] = React.useState(null);
 
-    //let ingredients = selectedIngredients;
-   //const activeBun = data.find((item) => item.type === 'bun');
-    // ingredients = data.filter((item) => item.type !== 'bun');
-
-    const [info, setInfo] = React.useState([]);
-    const url = 'https://norma.nomoreparties.space/api/orders';
-    const checkResponse = (res) => {
-        return res.ok ? res.json() : res.json().then((err)=> Promise.reject(err))
-    };
     const placeOrder = () => {
-        fetch(url, {
+        fetch(`${BASE_URL}orders`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -54,13 +42,6 @@ function BurgerConstructor() {
                 console.error('Ошибка с заказом', error);
             });
     };
-    useEffect(() => {
-        fetch(url)
-            .then(checkResponse)
-            .then(res => setInfo(res.data))
-            .catch(err => console.log(err))
-    },[]);
-
 
     const totalPrice = React.useMemo(() => {
         const price = selectedIngredients.reduce((total, ingredient) => {
@@ -72,7 +53,7 @@ function BurgerConstructor() {
     const renderIngredients = () => {
         return selectedIngredients.map((item, index) => (
 
-            <div key={index} className='mb-4 ml-3 mr-2'>
+            <div key={index} className={`${styles.price} mb-4 ml-3 mr-2`}>
                 <DragIcon type='primary' />
                 <ConstructorElement
                     key={item._id}
@@ -139,8 +120,5 @@ function BurgerConstructor() {
     );
 }
 
-BurgerConstructor.propTypes = {
-    data: PropTypes.arrayOf(ingredientPropType)
-};
 
 export default React.memo(BurgerConstructor);

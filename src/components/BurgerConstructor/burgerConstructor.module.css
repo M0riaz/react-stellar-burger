@@ -5,6 +5,7 @@
     margin-top: 100px;
 }
 .element{
+display: flex;
 
 }
 .price{
@@ -17,7 +18,7 @@
 }
 .ingredients{
     overflow-y: scroll;
-    height: 480px;
+    max-height: 480px;
 }
 .ingredients::-webkit-scrollbar {
     width: 8px;

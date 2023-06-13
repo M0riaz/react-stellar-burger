@@ -1,4 +1,3 @@
-
 import React from "react";
 import ReactDOM from "react-dom";
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
@@ -10,8 +9,6 @@ import ModalOverlay from "../ModalOverlay/ModalOverlay";
 const modalRoot = document.getElementById("react-modals");
 
 function Modal({modalActive,setModalActive, children }) {
-    // console.log(props)
-    // const [ modalActive, setModalActive] = React.useState(true)
     const [overlayActive, setOverlayActive] = React.useState(true);
 
     const handleKeyDown = React.useCallback((e) => {

@@ -2,7 +2,6 @@ import React from "react";
 import styles from './orderDetails.module.css';
 import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import {retry} from "@reduxjs/toolkit/query";
 import done from '../../images/done.svg'
 import PropTypes from 'prop-types';
 function OrderDetails ({ orderNumber }){
