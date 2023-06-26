@@ -1,26 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import {CloseIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from "prop-types";
-import { ingredientPropType } from "../../utils/prop-types";
 import styles from './modal.module.css'
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 
 const modalRoot = document.getElementById("react-modals");
 
-function Modal({modalActive,setModalActive, children }) {
-    const [overlayActive, setOverlayActive] = React.useState(true);
+function Modal({modalActive, setModalActive, children}) {
 
     const handleKeyDown = React.useCallback((e) => {
         if (e.key === 'Escape') {
-            setOverlayActive(false);
             setModalActive(false);
         }
-    }, []);
-
-    const handleCloseClick = React.useCallback(() => {
-        setModalActive(false);
-        setOverlayActive(false);
     }, []);
 
     React.useEffect(() => {
@@ -29,16 +21,17 @@ function Modal({modalActive,setModalActive, children }) {
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
         };
-    });
+    }, []);
 
     return ReactDOM.createPortal((
-        <div >
-            {overlayActive &&  <ModalOverlay />}
-            <div >
-                <div className={modalActive ? `${styles.popup} ${styles.active}` : styles.popup} onClick={ handleCloseClick}>
+        <div>
+            <ModalOverlay onClick={setModalActive}/>
+            <div>
+                <div className={modalActive ? `${styles.popup} ${styles.active}` : styles.popup}
+                     onClick={setModalActive}>
                     <div className={styles.popupBox} onClick={e => e.stopPropagation()}>
-                        <button type="button" className={styles.buttonClose} onClick={handleCloseClick}>
-                            <CloseIcon type="primary" />
+                        <button type="button" className={styles.buttonClose} onClick={setModalActive}>
+                            <CloseIcon type="primary"/>
                         </button>
                         <div>
                             {children}
