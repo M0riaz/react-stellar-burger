@@ -1,5 +1,3 @@
-export const ADD_TODO = 'ADD_TODO';
-
 export const DELETE_INGREDIENT = 'DELETE_INGREDIENT';
 export const ADD_INGREDIENT = 'ADD_INGREDIENT';
 
@@ -15,5 +13,7 @@ export const ADD_BUN = 'ADD_BUN';
 export const OPEN_MODAL = 'OPEN_MODAL';
 export const CLOSE_MODAL = 'CLOSE_MODAL';
 
-export const MOVING_ITEM = 'MOVING_ITEM';
+export const UPDATE_ITEM = 'UPDATE_ITEM'
+export const REMOVE_BUN = 'REMOVE_BUN'
+
 

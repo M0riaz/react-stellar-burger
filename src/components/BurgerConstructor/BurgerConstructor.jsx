@@ -11,15 +11,14 @@ import OrderDetails from "../OrderDetails/OrderDetails";
 
 import {useSelector, useDispatch} from 'react-redux';
 import {
-    getOrder,
     addIngredient,
     deleteIngredientById,
     addBun,
-    openModal,
-    closeModal,
     updateItem,
 } from '../../services/actions/actions'
 import {useDrop, useDrag} from 'react-dnd';
+import {getOrder} from "../../services/actions/get_order";
+import {closeModal, openModal} from "../../services/actions/modal";
 
 
 function RenderIngredients(props) {
@@ -76,7 +75,7 @@ function RenderIngredients(props) {
     const opacity = isDragging ? 0 : 1;
 
     const handleDeleteClick = () => {
-        deleteIngredientById(dispatch, index);
+        dispatch( deleteIngredientById(index));
     };
 
     drag(drop(ref));
@@ -102,14 +101,15 @@ function RenderIngredients(props) {
 function BurgerConstructor() {
     const [modalActive, setModalActive] = React.useState(false);
     const dispatch = useDispatch();
-    const {burgerConstructor, bun, order} = useSelector(state => state.itemReducer);
+    const {burgerConstructor, bun, activeBun} = useSelector(state => state.itemReducer);
+    const order = useSelector(state => state.getOrder.order);
     const [, dropRef] = useDrop({
         accept: 'ingredient',
         drop: (item) => {
             if (item.data.type === "bun") {
-                addBun(dispatch, item.data);
+                dispatch(addBun(item.data));
             } else {
-                addIngredient(dispatch, item.data)
+                dispatch(addIngredient(item.data));
             }
         },
         collect: (monitor) => ({
@@ -122,21 +122,23 @@ function BurgerConstructor() {
 
         newItem.splice(dragIndex, 1)
         newItem.splice(hoverIndex, 0, dragItem)
-        updateItem(dispatch, newItem)
+        dispatch(updateItem(newItem))
     }
 
     const handelOnClickItem = (data) => {
         setModalActive(true);
-        openModal(dispatch, data)
+        dispatch(openModal(data))
     }
     const handelOnCloseItem = () => {
         setModalActive(false);
-        closeModal(dispatch)
+        dispatch(closeModal)
     }
 
     const placeOrder = () => {
         const burgerConstructorIds = burgerConstructor.map(item => item._id)
-        dispatch(getOrder(burgerConstructorIds));
+        const activeBuns = activeBun.map(item => item._id)
+        const res = [...activeBuns, ...burgerConstructorIds]
+        dispatch(getOrder(res));
         handelOnClickItem()
         setModalActive(true);
     };

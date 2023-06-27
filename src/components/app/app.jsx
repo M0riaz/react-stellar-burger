@@ -4,9 +4,9 @@ import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import React from 'react';
 import {useDispatch} from 'react-redux';
-import {getItems} from "../../services/actions/actions";
 import {DndProvider} from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";
+import {getItems} from "../../services/actions/get_items";
 
 function App() {
     const dispatch = useDispatch();

@@ -7,17 +7,14 @@ import {useDispatch, useSelector} from 'react-redux';
 import {
     addBun,
     addIngredient,
-    openModal,
-    closeModal,
 } from '../../services/actions/actions'
-
-
 import {useDrag} from "react-dnd";
+import {closeModal, openModal} from "../../services/actions/modal";
+
 
 const BurgerElement = React.memo((props) => {
 
     const {handelOnClickItem, data} = props;
-
     const {burgerConstructor, activeBun} = useSelector((state) => state.itemReducer);
     const dispatch = useDispatch();
 
@@ -31,9 +28,9 @@ const BurgerElement = React.memo((props) => {
 
     const handleIngredientClick = () => {
         if (data.type !== "bun") {
-            addIngredient(dispatch, data);
+            dispatch(addIngredient(data))
         } else {
-            addBun(dispatch, data);
+            dispatch(addBun(data))
         }
     };
     const bunCount = React.useMemo(() => {
@@ -79,7 +76,7 @@ const BurgerElement = React.memo((props) => {
 function BurgerIngredients() {
     const [modalActive, setModalActive] = React.useState(false)
 
-    const items = useSelector(state => state.itemReducer.items);
+    const items = useSelector(state => state.getItems.items);
     const [current, setCurrent] = React.useState('bun');
 
     const bunRef = React.useRef(null);
@@ -90,11 +87,11 @@ function BurgerIngredients() {
     const handelOnClickItem = (evt, data) => {
         evt.preventDefault()
         setModalActive(true);
-        openModal(dispatch, data)
+        dispatch(openModal(data))
     }
     const handelOnCloseItem = () => {
         setModalActive(false);
-        closeModal(dispatch)
+        dispatch(closeModal)
     }
 
     const handleScroll = () => {
