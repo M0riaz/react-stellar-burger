@@ -19,6 +19,7 @@ import {
 import {useDrop, useDrag} from 'react-dnd';
 import {getOrder} from "../../services/actions/get_order";
 import {closeModal, openModal} from "../../services/actions/modal";
+import {useNavigate} from "react-router-dom";
 
 
 function RenderIngredients(props) {
@@ -32,7 +33,6 @@ function RenderIngredients(props) {
 
     const dispatch = useDispatch();
     const ref = useRef(null);
-
 
     const [, drop] = useDrop({
         accept: 'i',
@@ -102,7 +102,9 @@ function BurgerConstructor() {
     const [modalActive, setModalActive] = React.useState(false);
     const dispatch = useDispatch();
     const {burgerConstructor, bun, activeBun} = useSelector(state => state.itemReducer);
+    const {isAuth} = useSelector(state => state.regNewUser);
     const order = useSelector(state => state.getOrder.order);
+    const navigate = useNavigate();
     const [, dropRef] = useDrop({
         accept: 'ingredient',
         drop: (item) => {
@@ -135,6 +137,9 @@ function BurgerConstructor() {
     }
 
     const placeOrder = () => {
+        if(!isAuth){
+          navigate('/login')
+        }
         const burgerConstructorIds = burgerConstructor.map(item => item._id)
         const activeBuns = activeBun.map(item => item._id)
         const res = [...activeBuns, ...burgerConstructorIds]

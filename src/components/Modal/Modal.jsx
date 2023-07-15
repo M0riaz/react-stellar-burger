@@ -7,8 +7,9 @@ import ModalOverlay from "../ModalOverlay/ModalOverlay";
 
 const modalRoot = document.getElementById("react-modals");
 
-function Modal({modalActive, setModalActive, children}) {
-
+function Modal(props) {
+const {modalActive, setModalActive, children} = props;
+console.log(modalActive)
     const handleKeyDown = React.useCallback((e) => {
         if (e.key === 'Escape') {
             setModalActive(false);
