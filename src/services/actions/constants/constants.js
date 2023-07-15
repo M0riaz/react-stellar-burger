@@ -1,0 +1,19 @@
+export const ADD_TODO = 'ADD_TODO';
+
+export const DELETE_INGREDIENT = 'DELETE_INGREDIENT';
+export const ADD_INGREDIENT = 'ADD_INGREDIENT';
+
+export const GET_ITEMS_REQUEST = 'GET_ITEMS_REQUEST';
+export const GET_ITEMS_SUCCESS = 'GET_ITEMS_SUCCESS';
+export const GET_ITEMS_FAILED = 'GET_ITEMS_FAILED';
+
+export const GET_ORDERS_REQUEST = 'GET_ORDERS_REQUEST';
+export const GET_ORDERS_SUCCESS = 'GET_ORDERS_SUCCESS';
+export const GET_ORDERS_FAILED = 'GET_ORDERS_FAILED';
+export const ADD_BUN = 'ADD_BUN';
+
+export const OPEN_MODAL = 'OPEN_MODAL';
+export const CLOSE_MODAL = 'CLOSE_MODAL';
+
+export const MOVING_ITEM = 'MOVING_ITEM';
+
