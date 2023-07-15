@@ -39,7 +39,6 @@ export const ResetPassword = () => {
                         placeholder={'Введите новый пароль'}
                     />
                 </div>
-
                 <div className='mt-6'>
                     <Input
                         type={'text'}

@@ -30,8 +30,6 @@ export const Register = () => {
             <div className={style.box}>
                 <h1 className="text text_type_main-medium"> Регистрация</h1>
                 <form>
-
-
                 <div className='mt-6'>
                 <Input
                     type={'text'}
