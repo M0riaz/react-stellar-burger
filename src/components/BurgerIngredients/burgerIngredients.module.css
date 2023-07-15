@@ -41,3 +41,7 @@
 .itemList::-webkit-scrollbar-thumb {
     background-color:  #8585AD;
 }
+.link {
+    text-decoration: none;
+    color: #f2f2f3;
+}

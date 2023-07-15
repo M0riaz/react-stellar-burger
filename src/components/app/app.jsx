@@ -1,28 +1,75 @@
 import styles from "./app.module.css";
 import AppHeader from "../AppHeader/AppHeader";
-import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
-import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import React from 'react';
 import {useDispatch} from 'react-redux';
-import {getItems} from "../../services/actions/actions";
 import {DndProvider} from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";
+import {getItems} from "../../services/actions/get_items";
+import Modal from "../Modal/Modal";
+import IngredientDetails from "../IngredientDetails/IngredientDetails";
+import {BrowserRouter, Route, Routes, useLocation, useNavigate} from "react-router-dom";
+import {MainPage,Register,ForgotPassword,Login,ResetPassword, Error404,Profile,IngredientPage} from '../../pages/allPages'
+import  { OnlyUnAuth,OnlyAuth} from "../ProtectedRouteElement/ProtectedRouteElement";
+import {refreshCurrentToken,getUserData} from "../../services/actions/regestrationUser";
+
 
 function App() {
+
     const dispatch = useDispatch();
     const init = () => dispatch(getItems());
     init();
+  //  const [modalActive, setModalActive] = React.useState(false)
+    React.useEffect(() => {
+       const token = localStorage.getItem('refreshToken')
+      // console.log(token)
+        if(token){
+            dispatch(refreshCurrentToken(token))
+        }
+        getUserData()
+
+    }, []);
+
+    const location = useLocation();
+    const navigate = useNavigate();
+    const background = location.state && location.state.background;
+
+    const handleModalClose = () => {
+     //   setModalActive(false);
+        navigate(-1);
+    };
+
 
     return (
-        <div className={styles.app}>
-            <AppHeader/>
-            <main className={styles.main}>
+            <div className={styles.app}>
                 <DndProvider backend={HTML5Backend}>
-                    <BurgerIngredients/>
-                    <BurgerConstructor/>
+                    <AppHeader/>
+                    <main className={styles.main}>
+                        <Routes  location={background || location}>
+                            <Route path='/' element={<MainPage/>}/>
+                            <Route path='/login' element={<OnlyUnAuth component={<Login/>} />}  />
+                            <Route path='/register' element={<OnlyUnAuth component={<Register/>} />}/>
+                            <Route path='/forgot-password' element={<OnlyUnAuth component={<ForgotPassword/>}/>}/>
+                            <Route path='/reset-password' element={<OnlyUnAuth component={<ResetPassword/>}/>}/>
+                            <Route path='*' element={<Error404/>}/>
+                            <Route path='/profile' element={<OnlyAuth component={<Profile/>}/>} />
+                            <Route path='/ingredients/:ingredientId' element={<IngredientPage />} />
+
+                        </Routes>
+                        {background && (
+                            <Routes>
+                                <Route
+                                    path='/ingredients/:ingredientId'
+                                    element={
+                                        <Modal modalActive setModalActive={handleModalClose}>
+                                            <IngredientDetails/>
+                                        </Modal>
+                                    }
+                                />
+                            </Routes>
+                        )}
+                    </main>
                 </DndProvider>
-            </main>
-        </div>
+            </div>
     );
 }
 

@@ -1,25 +1,27 @@
 import styles from './burgerIngredients.module.css'
 import {CurrencyIcon, Tab, Counter} from '@ya.praktikum/react-developer-burger-ui-components';
 import React from 'react';
-import Modal from "../Modal/Modal";
-import IngredientDetails from "../IngredientDetails/IngredientDetails";
+
 import {useDispatch, useSelector} from 'react-redux';
 import {
     addBun,
     addIngredient,
-    openModal,
-    closeModal,
 } from '../../services/actions/actions'
-
-
 import {useDrag} from "react-dnd";
+import { openModal} from "../../services/actions/modal";
+import {Link, useLocation} from "react-router-dom";
+
 
 const BurgerElement = React.memo((props) => {
 
-    const {handelOnClickItem, data} = props;
-
+    const {
+        data} = props;
     const {burgerConstructor, activeBun} = useSelector((state) => state.itemReducer);
     const dispatch = useDispatch();
+
+    const location = useLocation();
+
+    const ingredientId = data['_id'];
 
     const [{isDragging}, dragRef] = useDrag({
         type: "ingredient",
@@ -29,11 +31,18 @@ const BurgerElement = React.memo((props) => {
         }),
     });
 
+    const [modalActive, setModalActive] = React.useState(false)
     const handleIngredientClick = () => {
+
         if (data.type !== "bun") {
-            addIngredient(dispatch, data);
+            dispatch(addIngredient(data))
+            setModalActive(true);
+            dispatch(openModal(data))
+
         } else {
-            addBun(dispatch, data);
+            setModalActive(true);
+            dispatch(addBun(data))
+            dispatch(openModal(data))
         }
     };
     const bunCount = React.useMemo(() => {
@@ -48,16 +57,22 @@ const BurgerElement = React.memo((props) => {
     return (
 
         !isDragging && (
-            <div ref={dragRef} className={styles.container}
-                 onClick={(e) => {
-                     handelOnClickItem(e, data)
-                 }}>
+    <Link
+        key={ingredientId}
+       to={`/ingredients/${ingredientId}`}
+       state={{ background: location }}
+        className={styles.link}>
+
+            <div ref={dragRef} className={styles.container}>
                 <img className={styles.image} src={data.image} alt={data.name}
-                     onClick={() => {
-                         handleIngredientClick();
-                     }}
+                     onClick={
+                         handleIngredientClick
+
+                     }
                 />
-                <div className={styles.info}>
+                <div onClick={() => {
+                    console.log(data['_id'])
+                }} className={styles.info}>
                     <div className={styles.price}>
                         <p className="text text_type_digits-default pt-1 mr-2">{data.price}</p>
                         <CurrencyIcon type="primary"/>
@@ -72,31 +87,20 @@ const BurgerElement = React.memo((props) => {
                         (<Counter count={bunCount} size="default"/>) : (<Counter count={count} size="default"/>)
                 }
             </div>
+    </Link>
         )
+
     )
 })
 
 function BurgerIngredients() {
-    const [modalActive, setModalActive] = React.useState(false)
 
-    const items = useSelector(state => state.itemReducer.items);
+    const items = useSelector(state => state.getItems.items);
     const [current, setCurrent] = React.useState('bun');
 
     const bunRef = React.useRef(null);
     const sauceRef = React.useRef(null);
     const mainRef = React.useRef(null);
-    const dispatch = useDispatch();
-
-    const handelOnClickItem = (evt, data) => {
-        evt.preventDefault()
-        setModalActive(true);
-        openModal(dispatch, data)
-    }
-    const handelOnCloseItem = () => {
-        setModalActive(false);
-        closeModal(dispatch)
-    }
-
     const handleScroll = () => {
         const bunTop = bunRef.current.getBoundingClientRect().top;
         const sauceTop = sauceRef.current.getBoundingClientRect().top;
@@ -125,12 +129,6 @@ function BurgerIngredients() {
     return (
 
         <section className={styles.section}>
-            {modalActive &&
-                <Modal modalActive={modalActive} setModalActive={handelOnCloseItem}>
-                    <IngredientDetails/>
-                </Modal>
-
-            }
             <h1 className='text text_type_main-large pt-5 mt-5'>
                 Соберите бургер
             </h1>
@@ -153,21 +151,24 @@ function BurgerIngredients() {
                 <h2 ref={bunRef} className='text text_type_main-medium pt-5 mt-5'>Булки</h2>
                 <div className={styles.box}>
                     {bun.map((item) => (
-                        <BurgerElement handelOnClickItem={handelOnClickItem} data={item} key={item._id}/>
+                        <BurgerElement
+                            data={item} key={item._id}/>
                     ))}
                 </div>
 
                 <h2 ref={sauceRef} className='text text_type_main-medium pt-5 mt-5'>Соусы</h2>
                 <div className={styles.box}>
                     {sauce.map((item) => (
-                        <BurgerElement handelOnClickItem={handelOnClickItem} data={item} key={item._id}/>
+                        <BurgerElement
+                            data={item} key={item._id}/>
                     ))}
                 </div>
 
                 <h2 ref={mainRef} className='text text_type_main-medium pt-5 mt-5'>Начинки</h2>
                 <div className={styles.box}>
                     {main.map((item) => (
-                        <BurgerElement handelOnClickItem={handelOnClickItem} data={item} key={item._id}/>
+                        <BurgerElement
+                            data={item} key={item._id}/>
                     ))}
 
                 </div>

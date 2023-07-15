@@ -4,8 +4,12 @@ import {
 import styles from './ingredientDetails.module.css'
 import {useSelector} from "react-redux";
 
-function IngredientDetails () {
-    const item = useSelector(state => state.itemReducer.item);
+ const IngredientDetails = () => {
+    const item = useSelector(state => state.modal.item);
+
+     if (!item) {
+         return null;
+     }
 return(
     <div >
        <h1 className="text text_type_main-large mt-10 ml-10">
