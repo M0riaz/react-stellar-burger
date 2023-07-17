@@ -21,15 +21,18 @@ export const Register = () => {
     };
 
 
-    const onClick = () => {
-        dispatch(regNewUser(form))
+    const onClick = (e) => {
+        e.preventDefault()
+        console.log(form)
+     dispatch(regNewUser(form))
+
     }
 
     return (
         <section className={style.page}>
             <div className={style.box}>
                 <h1 className="text text_type_main-medium"> Регистрация</h1>
-                <form>
+                <form onSubmit={onClick}>
                 <div className='mt-6'>
                 <Input
                     type={'text'}
@@ -62,16 +65,13 @@ export const Register = () => {
                         extraClass="mb-2"
                     />
                 </div>
-                </form>
+
                 <div className='mt-6 mb-20'>
-                    <Link to='/'>
-                        <Button htmlType="button" type="primary" size="large" onClick={onClick}>
+                        <Button htmlType="submit" type="primary" size="large" >
                             Зарегистрироваться
                         </Button>
-                    </Link>
-
                 </div>
-
+            </form>
                 <div className={style.links}>
                     <p className={`${style.text} text text_type_main-default text_color_inactive`}>
                         Уже зарегистрированы</p>

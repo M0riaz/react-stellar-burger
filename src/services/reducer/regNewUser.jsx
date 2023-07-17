@@ -12,6 +12,7 @@ const initialState = {
     loginError: null,
     isAuth: false,
 
+
     logOutRequest: false,
     logOutFailed: false,
     logOutError: null,
@@ -70,7 +71,6 @@ export const regNewUser = (state = initialState, action) => {
             };
         }
         case  'GET_LOGIN_USER_SUCCESS': {
-            localStorage.setItem("refreshToken", action.payload.refreshToken);
             return {
                 ...state,
                 loginFailed: false,
@@ -79,9 +79,6 @@ export const regNewUser = (state = initialState, action) => {
                 email: action.payload.user.email,
                 password: action.payload.user.password,
                 name: action.payload.user.name,
-
-
-                refreshToken: action.payload.refreshToken,
             }
         }
         case 'GET_LOGIN_USER_FAILED': {
@@ -128,18 +125,17 @@ export const regNewUser = (state = initialState, action) => {
             }
         }
         case 'GET_REFRESH_TOKEN_SUCCESS': {
-
             localStorage.setItem("refreshToken", action.payload.refreshToken);
+            localStorage.setItem("accessToken", action.payload.accessToken);
             return {
                 ...state,
-                refreshToken: action.payload.refreshToken,
+               refreshToken: action.payload.refreshToken,
                 accessToken: action.payload.accessToken,
                 tokenRequest: true,
             }
         }
 
         case 'GET_REFRESH_TOKEN_FAILED': {
-            localStorage.removeItem("refreshToken", action.payload.refreshToken);
             return {
                 ...state,
                 tokenRequest: false,
@@ -157,12 +153,14 @@ export const regNewUser = (state = initialState, action) => {
             };
         }
         case  'GET_USER_DATA_SUCCESS': {
+            localStorage.getItem("refreshToken", action.payload.refreshToken);
             return {
                 ...state,
                 userDataRequest: false,
                 name: action.payload.user.name,
                 email: action.payload.user.email,
-                password: action.payload.password
+                password: action.payload.password,
+                isAuth: true,
             }
         }
         case 'GET_USER_DATA_FAILED': {
@@ -184,8 +182,8 @@ export const regNewUser = (state = initialState, action) => {
             return {
                 ...state,
                 updateUserRequest: false,
-                name: action.payload.name,
-                password: action.payload.password,
+                name: action.payload.user.name,
+                password: action.payload.user.password,
                 email: action.payload.email
             }
         }
@@ -196,7 +194,6 @@ export const regNewUser = (state = initialState, action) => {
                 updateUserFailed: true,
             };
         }
-
         default: {
             return state;
         }

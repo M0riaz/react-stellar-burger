@@ -50,8 +50,8 @@ export const getPass =  (state = initialState, action) => {
         case  'GET_NEW_PASSWORD_SUCCESS': {
             return {
                 ...state,
-                password: action.payload,
-                token: action.payload,
+                password: action.payload.password,
+                token: action.payload.token,
                 newPassRequest: false
 
             }

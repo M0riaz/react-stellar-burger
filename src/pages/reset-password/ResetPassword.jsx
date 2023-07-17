@@ -1,7 +1,7 @@
 import style from './resetPassword.module.css'
 import {PasswordInput, Button, Input} from '@ya.praktikum/react-developer-burger-ui-components';
 import React from "react";
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {useDispatch} from "react-redux";
 import {resetPass} from "../../services/actions/regestrationUser";
 
@@ -9,7 +9,7 @@ export const ResetPassword = () => {
     const dispatch = useDispatch();
     const [token, setToken] = React.useState('')
     const [password, setPassword] = React.useState('')
-
+    const navigate = useNavigate();
     const onChangePasss = e => {
         setPassword(e.target.value)
     }
@@ -20,16 +20,18 @@ export const ResetPassword = () => {
         alert('Icon Click Callback')
     }
 
-    const onClick = () => {
+    const onClick = (e) => {
+        e.preventDefault()
         const values = { password, token}
         dispatch(resetPass(values))
+        navigate('/login', { replace: true })
     }
 
     return (
         <section className={style.page}>
             <div className={style.box}>
-                <h1 className="text text_type_main-medium"> Восстановление пароля</h1>
-
+                <h1 className="text text_type_main-medium"> Восстановление пароляqq</h1>
+                <form onSubmit={onClick}>
                 <div className='mt-6'>
                     <PasswordInput
                         onChange={onChangePasss}
@@ -56,19 +58,15 @@ export const ResetPassword = () => {
                 </div>
 
                 <div className='mt-6 mb-20'>
-                    <Link to='/login'>
-                        <Button htmlType="button" type="primary" size="large" onClick={onClick}>
+                        <Button htmlType="submit" type="primary" size="large" >
                             Сохранить
                         </Button>
-                    </Link>
-
                 </div>
-
+                </form>
                 <div className={style.links}>
                     <p className={`${style.text} text text_type_main-default text_color_inactive`}>Вспомнили пароль?</p>
                     <Link to='/login' className={`${style.link} ml-4  text text_type_main-default`}>Войти</Link>
                 </div>
-
             </div>
         </section>
     )

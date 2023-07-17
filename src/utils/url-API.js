@@ -34,6 +34,7 @@ export const recoveryPassword = (email) => {
 }
 
 export const resetPassword = (data) => {
+    console.log(data,'data')
     const {password, token} = data;
     return fetch(`${BASE_URL}password-reset/reset`, {
         method: 'POST',
@@ -90,29 +91,54 @@ export const logOut = (data) => {
 
 export const refreshToken = (token) => {
     return fetch(`${BASE_URL}auth/token`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-            'Content-Type': 'application/json; charset=utf-8'
+            "Content-Type": "application/json;charset=utf-8",
         },
         body: JSON.stringify({
-            token
-        })
-    });
-}
+            token: token
 
+        }),
+    })
+};
+
+export const fetchWithRefresh = async (url, options, token) => {
+    try {
+        const res = await fetch(url, options);
+        return await checkResponse(res);
+
+    } catch (err) {
+        if (err.message === "jwt expired") {
+            const refreshData = await refreshToken(token); //обновляем токен
+            if (!refreshData.success) {
+                return Promise.reject(refreshData);
+            }
+            localStorage.setItem("refreshToken", refreshData.refreshToken);
+            localStorage.setItem("accessToken", refreshData.accessToken);
+            options.headers.authorization = refreshData.accessToken;
+            const res = await fetch(url, options); //повторяем запрос
+            console.log(res)
+            return await checkResponse(res);
+        } else {
+            return Promise.reject(err);
+        }
+    }
+}
+//
 export const getUser = () => {
-    return fetch(`${BASE_URL}auth/user`, {
+    return fetchWithRefresh(`${BASE_URL}auth/user`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json; charset=utf-8',
-            'authorization': localStorage.getItem('accessToken')
+             'authorization': localStorage.getItem('accessToken')
+
         }
     })
 }
 
 export const updateUserInfo = (data) => {
     const {email, password, name} = data
-    return fetch(`${BASE_URL}auth/user`, {
+    return fetchWithRefresh(`${BASE_URL}auth/user`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json; charset=utf-8',

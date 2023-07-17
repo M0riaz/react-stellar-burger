@@ -38,7 +38,7 @@ export const Login = () => {
         <section className={style.page}>
             <div className={style.box}>
                 <h1 className="text text_type_main-medium"> Вход</h1>
-                <form>
+                <form onSubmit={onClick}>
                     <div className='mt-6'>
                         <EmailInput
                             onChange={onChange}
@@ -58,9 +58,7 @@ export const Login = () => {
                     </div>
 
                     <div className='mt-6 mb-20'>
-                        <Button htmlType="button" type="primary" size="large"
-                                onClick={onClick}
-                        >
+                        <Button htmlType="submit" type="primary" size="large">
                             Войти
                         </Button>
                     </div>

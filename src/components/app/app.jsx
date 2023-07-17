@@ -1,7 +1,7 @@
 import styles from "./app.module.css";
 import AppHeader from "../AppHeader/AppHeader";
 import React from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {DndProvider} from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";
 import {getItems} from "../../services/actions/get_items";
@@ -12,32 +12,22 @@ import {MainPage,Register,ForgotPassword,Login,ResetPassword, Error404,Profile,I
 import  { OnlyUnAuth,OnlyAuth} from "../ProtectedRouteElement/ProtectedRouteElement";
 import {refreshCurrentToken,getUserData} from "../../services/actions/regestrationUser";
 
-
 function App() {
 
     const dispatch = useDispatch();
-    const init = () => dispatch(getItems());
-    init();
-  //  const [modalActive, setModalActive] = React.useState(false)
-    React.useEffect(() => {
-       const token = localStorage.getItem('refreshToken')
-      // console.log(token)
-        if(token){
-            dispatch(refreshCurrentToken(token))
-        }
-        getUserData()
-
-    }, []);
-
     const location = useLocation();
     const navigate = useNavigate();
     const background = location.state && location.state.background;
 
     const handleModalClose = () => {
-     //   setModalActive(false);
         navigate(-1);
     };
 
+    React.useEffect(() => {
+
+        dispatch(getItems());
+        dispatch(getUserData());
+    }, []);
 
     return (
             <div className={styles.app}>
