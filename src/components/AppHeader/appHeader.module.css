@@ -6,17 +6,17 @@
     height: 88px;
     margin: 40px auto 0 auto;
 }
-.link{
+
+.activeLink{
+    color: white;
     text-decoration: none;
-    color: #f2f2f3;
 }
-.link:visited {
-    color: #F2F2F3;
-}
-.linkInactive{
-    text-decoration: none;
+
+.link {
     color: #8585AD;
+    text-decoration: none;
 }
+
 .header__box {
     width: 1280px;
     display: grid;
