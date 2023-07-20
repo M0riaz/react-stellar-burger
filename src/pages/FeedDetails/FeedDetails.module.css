@@ -1,0 +1,38 @@
+.main{
+    width: 640px;
+    height: 620px;
+    display: flex;
+    flex-direction: column;
+}
+.number{
+    align-self: center;
+}
+
+.name{
+}
+.status{
+color: #2ac4ae;
+}
+.details{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+.list{
+    height: 312px;
+    overflow-y: scroll;
+    max-height: 312px;
+}
+
+.list::-webkit-scrollbar {
+    width: 8px;
+}
+.list::-webkit-scrollbar-track{
+    background-color: #2F2F37;
+}
+.list::-webkit-scrollbar-thumb {
+    background-color:  #8585AD;
+}
+.price{
+    display: flex;
+}

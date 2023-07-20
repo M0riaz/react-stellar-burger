@@ -26,12 +26,12 @@ export default function AppHeader() {
                     </div>
                     <div className={`${styles.header__item} ml-2`}>
                         {
-                            location.pathname === '/orders' ?
+                            location.pathname === '/feed' || location.pathname === '/feed/:id' ?
                                 <ListIcon type="primary" /> :
                                 <ListIcon type="secondary" />
                         }
                         <p className='text text_type_main-default mr-5 ml-3 '>
-                            <NavLink to='/orders' className={linkStyle} >Лента заказов</NavLink>
+                            <NavLink to='/feed' className={linkStyle} >Лента заказов</NavLink>
                         </p>
 
                     </div>

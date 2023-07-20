@@ -8,7 +8,7 @@ import {getItems} from "../../services/actions/get_items";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import {BrowserRouter, Route, Routes, useLocation, useNavigate} from "react-router-dom";
-import {MainPage,Register,ForgotPassword,Login,ResetPassword, Error404,Profile,IngredientPage} from '../../pages/allPages'
+import {MainPage,Register,ForgotPassword,Login,ResetPassword, Error404,Profile,IngredientPage, Feed, FeedDetails} from '../../pages/allPages'
 import  { OnlyUnAuth,OnlyAuth} from "../ProtectedRouteElement/ProtectedRouteElement";
 import {refreshCurrentToken,getUserData} from "../../services/actions/regestrationUser";
 
@@ -43,6 +43,8 @@ function App() {
                             <Route path='*' element={<Error404/>}/>
                             <Route path='/profile' element={<OnlyAuth component={<Profile/>}/>} />
                             <Route path='/ingredients/:ingredientId' element={<IngredientPage />} />
+                            <Route path='/feed' element={<Feed/>}/>
+                            <Route path='/feed/:id' element={<FeedDetails/>}/>
 
                         </Routes>
                         {background && (

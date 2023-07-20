@@ -6,5 +6,7 @@ import {ResetPassword} from "./reset-password/ResetPassword";
 import {Error404} from "./error404/Error404";
 import {Profile} from './profile/Profile'
 import IngredientPage from './ingredients/Ingredients'
+import {Feed} from './feed/feed'
+import {FeedDetails} from './FeedDetails/FeedDetails'
 
-export {MainPage,Register,ForgotPassword,Login,ResetPassword,Error404, Profile, IngredientPage}
+export {MainPage,Register,ForgotPassword,Login,ResetPassword,Error404, Profile, IngredientPage, Feed, FeedDetails}
