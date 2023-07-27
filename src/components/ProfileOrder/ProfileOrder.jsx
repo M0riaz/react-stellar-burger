@@ -16,7 +16,7 @@ export const ProfileOrder = () => {
         }
     },[])
 
-    const orders = useSelector(state => state.orderFeedUserReducer.orders.orders.reverse());
+    const orders = useSelector(state => state.orderFeedUserReducer.orders.orders);
     return (
             <section className={`${style.main} ml-15`}>
 
