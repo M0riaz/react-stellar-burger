@@ -1,39 +1,92 @@
 import style from './Order.module.css'
-import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
-import {useSelector} from "react-redux";
-import React from "react";
+import {CurrencyIcon, FormattedDate} from '@ya.praktikum/react-developer-burger-ui-components';
+import {useSelector, useDispatch} from "react-redux";
+import React, {useState} from "react";
 
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import {ImageElement} from "../ImageElement/ImageElement";
+import {openModal} from "../../services/actions/modal";
 
+export const Order = (props) => {
+    const {item} = props
+    const items = useSelector(state => state.getItems.items)
 
-export const Order = () => {
-   const items = useSelector(state => state.getItems.items)
-    const item = items.find(item => item);
+    const orderItems = item.ingredients.map(ingredientId => {
+        return items.find(item => item._id === ingredientId);
+    });
 
-  //  console.log(item)
-    return(
-        item ? (
-            <Link className={style.link} to='/feed/:id'>
-                <div className={`${style.main} mb-4`}>
-                    <div className={`${style.details} mt-6`}>
-                        <span className='text text_type_digits-default ml-6'>#034535</span>
-                        <span className='text text_type_main-default text_color_inactive mr-6'>Сегодня, 16:20 i-GMT+3</span>
+    const location = useLocation();
+    const [modalActive, setModalActive] = React.useState(false)
+
+    const [marginLeft, setMarginLeft] = useState(0);
+
+    const ingredientId = item.number;
+    const dispatch = useDispatch();
+
+    React.useEffect(() => {
+        setMarginLeft(prevMarginLeft => prevMarginLeft - 15);
+    }, []);
+
+    const displayedItems = orderItems.slice(0, 6);
+
+    const orderStatus = () =>
+        item.status === 'done' ? 'Выполнен' : item.status === 'pending' ? 'Готовится' : item.status === 'created' ? 'Создан' : 'Выполнен'
+
+    const orderStatusDone = item.status === 'done';
+    const
+        handleClick = () => {
+            setModalActive(true);
+            dispatch(openModal(item))
+        }
+
+    const bunCount = orderItems.filter(item => item.type === 'bun').length;
+    const totalCost = orderItems.reduce((total, item) => {
+        if (item.type === 'bun' && bunCount === 1) {
+            return total + item.price * 2;
+        } else {
+            return total + (item ? item.price : 0);
+        }
+    }, 0);
+
+    return (
+        <Link className={style.link}
+              to={`${location.pathname}/${ingredientId}`}
+              state={{background: location}}
+              key={ingredientId}
+        >
+            <div onClick={handleClick} className={`${style.main} mb-4`}>
+                <div className={`${style.details} mt-6`}>
+                    <span className='text text_type_digits-default ml-6'>#{item.number}</span>
+                    <span className='text text_type_main-default text_color_inactive mr-6'>
+                         <FormattedDate date={new Date(item.createdAt)}/>
+                    </span>
+
+                </div>
+                <p className='text text_type_main-medium ml-6 mt-5 mr-3'>{item.name}</p>
+
+                <span className={`${style.status} text text_type_main-small mt-3 ml-6`}>
+                    <p className={orderStatusDone ? style.statusDone : style.status}>{orderStatus()}</p>
+                    </span>
+                <div className={`${style.ingredients} ml-6 mt-6 mr-6 mb-6`}>
+                    <div className={`${style.imgContainer} mr-6`}>
+                        {
+                            displayedItems && displayedItems.map((i, index) => (
+                                <div style={{zIndex: 1000 - index, marginLeft}} key={index}>
+                                    <ImageElement data={i}/>
+                                </div>
+                            ))
+                        }
+                        {item.ingredients.length > 6 &&
+                            <div className={`${style.counter} text text_type_digits-default`}
+                                 style={{marginLeft}}>+{item.ingredients.length - 6}</div>
+                        }
                     </div>
-                    <p className='text text_type_main-medium ml-6 mt-5'>Death Star Starship Main бургер</p>
-                    <div className={`${style.ingredients} ml-6 mt-6 mr-6 mb-6`}>
-                        <div className='mr-6'>
-                            <ImageElement img={item} />
-                        </div>
-                        <div className={`${style.price}`}>
-                            <span className='text text_type_digits-default mr-2'>480</span>
-                            <CurrencyIcon type="primary"/>
-                        </div>
+                    <div className={`${style.price}`}>
+                        <span className='text text_type_digits-default mr-2'>{totalCost}</span>
+                        <CurrencyIcon type="primary"/>
                     </div>
                 </div>
-            </Link>
-
-            ): (<div>Загрузка...</div>)
-
+            </div>
+        </Link>
     )
 }

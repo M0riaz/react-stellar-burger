@@ -1,12 +1,13 @@
 import style from './ImageElement.module.css'
-import React from "react";
+import React, {useEffect, useState, useCallback} from "react";
 
-export const ImageElement = ({img}) => {
-
+export const ImageElement = (props) => {
+    const {data} = props;
     return (
-        <div className={style.imageBox}>
-            <img className={style.img} src={img.image_mobile} alt={img.name} />
-        </div>
-
+        data ? (
+            <div className={style.imageBox} >
+                <img className={style.img} src={data.image} alt={data.name}/>
+            </div>
+        ) : <div>...</div>
     )
 }

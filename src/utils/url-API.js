@@ -9,11 +9,12 @@ export const dataIngredients = () => {
         `${BASE_URL}ingredients`
     )
 };
-export const dataOrder = (data) => {
+export const dataOrder = (data, token) => {
     return fetch(`${BASE_URL}orders`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            authorization: token
         },
         body: JSON.stringify({
             ingredients: data

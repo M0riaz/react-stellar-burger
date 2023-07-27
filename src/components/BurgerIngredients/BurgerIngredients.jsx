@@ -38,8 +38,9 @@ const BurgerElement = React.memo((props) => {
             dispatch(addIngredient(data))
             setModalActive(true);
             dispatch(openModal(data))
+        }
 
-        } else {
+        else {
             setModalActive(true);
             dispatch(addBun(data))
             dispatch(openModal(data))

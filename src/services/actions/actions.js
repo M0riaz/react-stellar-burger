@@ -33,3 +33,13 @@ export const removeBun = () => {
         type: REMOVE_BUN,
     }
 }
+
+export const clearIngredients = () => {
+    return {
+        type: "CLEAR_INGREDIENTS"
+    }
+}
+
+export const clearOrderNumber = () => ({
+    type: 'CLEAR_ORDER_NUMBER'
+});

@@ -1,6 +1,6 @@
 .main{
     width: 640px;
-    height: 620px;
+    max-height: 900px;
     display: flex;
     flex-direction: column;
 }
@@ -10,8 +10,12 @@
 
 .name{
 }
+
+.statusDone{
+    color: #2ac4ae;
+}
 .status{
-color: #2ac4ae;
+    color: white;
 }
 .details{
     display: flex;

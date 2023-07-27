@@ -1,0 +1,30 @@
+.list{
+    list-style-type: none;
+}
+.listBox{
+    /* flex: 5 0 60%; */
+    /* max-width: 50%; */
+    height: 300px;
+    width: 210px;
+}
+.lists{
+    display: flex;
+    justify-content: flex-start;
+}
+.headers{
+
+}
+.orders{
+    display: flex;
+    flex-direction: column;
+}
+.digits{
+    text-shadow: #4C4CFF 2px 1px 20px;
+}
+.listReady{
+    list-style-type: none;
+    color: #2ac4ae ;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}

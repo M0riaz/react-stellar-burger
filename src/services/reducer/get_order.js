@@ -2,7 +2,7 @@ import {GET_ORDERS_FAILED, GET_ORDERS_REQUEST, GET_ORDERS_SUCCESS} from "../acti
 const initialState = {
     orderRequest: false,
     orderFailed: false,
-     order: -1,
+     order: null,
     orderError: null,
 }
 
@@ -31,6 +31,11 @@ export const getOrder = (state = initialState, action) => {
                 orderError: action.payload
             };
         }
+        case 'CLEAR_ORDER_NUMBER':
+            return {
+                ...state,
+                order: null
+            };
         default: {
             return state;
         }
