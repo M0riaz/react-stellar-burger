@@ -13,7 +13,8 @@ export const Order = (props) => {
 
     const orderItems = item.ingredients.map(ingredientId => {
         return items.find(item => item._id === ingredientId);
-    });
+    }).filter( item => item);
+
 
     const location = useLocation();
     const [modalActive, setModalActive] = React.useState(false)
@@ -40,6 +41,7 @@ export const Order = (props) => {
         }
 
     const bunCount = orderItems.filter(item => item.type === 'bun').length;
+
     const totalCost = orderItems.reduce((total, item) => {
         if (item.type === 'bun' && bunCount === 1) {
             return total + item.price * 2;

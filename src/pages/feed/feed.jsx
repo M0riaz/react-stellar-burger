@@ -26,7 +26,7 @@ export const Feed = () => {
                 <h1 className='text text_type_main-large mt-10 mb-7'>Лента Заказов</h1>
                 <div className={style.content}>
                     <div className={`${style.itemBox} mr-15`}>
-                        {orders && orders.map((item) => ( <Order item={item} key={item._id}/>)) }
+                        {orders?.map((item) => ( <Order item={item} key={item._id}/>)) }
                     </div>
                     <div className={style.statisticBox}>
                         <OrderFeedStatistic  />
