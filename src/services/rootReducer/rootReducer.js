@@ -7,6 +7,9 @@ import { combineReducers } from 'redux';
 import {getPass} from "../reducer/registrationUser";
 import {regNewUser} from "../reducer/regNewUser";
 
+import {ordersFeedAllReducer} from "../reducer/ordersFeedAllReducer";
+import {orderFeedUserReducer} from "../reducer/ordersFeedUserReducer";
+
 
 const rootReducer = combineReducers({
     itemReducer,
@@ -15,6 +18,8 @@ const rootReducer = combineReducers({
     modal,
     getPass,
     regNewUser,
+    ordersFeedAllReducer,
+    orderFeedUserReducer
 });
 
 export default rootReducer;

@@ -1,0 +1,61 @@
+.main{
+    display: flex;
+    flex-direction: column;
+
+}
+.content{
+    display: flex;
+
+}
+
+.itemBox{
+    /*background-color: #254b40;*/
+
+    width: 608px;
+    height: 900px;
+    overflow-y: scroll;
+    max-height: 900px;
+}
+.itemBox::-webkit-scrollbar {
+    width: 8px;
+}
+.itemBox::-webkit-scrollbar-track{
+    background-color: #2F2F37;
+}
+.itemBox::-webkit-scrollbar-thumb {
+    background-color:  #8585AD;
+}
+
+.statisticBox{
+    width: 580px;
+    height: 900px;
+}
+/*.lists{*/
+/*    display: flex;*/
+/*    justify-content: flex-start;*/
+/*}*/
+/*.headers{*/
+
+/*}*/
+/*.list{*/
+/*    list-style-type: none;*/
+/*}*/
+/*.listBox{*/
+/*    width: 272px;*/
+/*}*/
+/*.listReady{*/
+/*    list-style-type: none;*/
+/*    color: #2ac4ae ;*/
+/*}*/
+/*.orders{*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*}*/
+/*.digits{*/
+/*   text-shadow: #4C4CFF 2px 1px 20px;*/
+/*}*/
+
+.link {
+    text-decoration: none;
+        color: #f2f2f3;
+}

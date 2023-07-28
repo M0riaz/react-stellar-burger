@@ -125,12 +125,12 @@ export const regNewUser = (state = initialState, action) => {
             }
         }
         case 'GET_REFRESH_TOKEN_SUCCESS': {
-            localStorage.setItem("refreshToken", action.payload.refreshToken);
-            localStorage.setItem("accessToken", action.payload.accessToken);
+            // localStorage.setItem("refreshToken", action.payload.refreshToken);
+            // localStorage.setItem("accessToken", action.payload.accessToken);
             return {
                 ...state,
-               refreshToken: action.payload.refreshToken,
-                accessToken: action.payload.accessToken,
+               // refreshToken: action.payload.refreshToken,
+               //  accessToken: action.payload.accessToken,
                 tokenRequest: true,
             }
         }
@@ -140,7 +140,7 @@ export const regNewUser = (state = initialState, action) => {
                 ...state,
                 tokenRequest: false,
                 tokenFailed: true,
-                refreshToken: action.payload.refreshToken,
+                // refreshToken: action.payload.refreshToken,
             }
         }
 
@@ -153,7 +153,7 @@ export const regNewUser = (state = initialState, action) => {
             };
         }
         case  'GET_USER_DATA_SUCCESS': {
-            localStorage.getItem("refreshToken", action.payload.refreshToken);
+            // localStorage.getItem("refreshToken", action.payload.refreshToken);
             return {
                 ...state,
                 userDataRequest: false,

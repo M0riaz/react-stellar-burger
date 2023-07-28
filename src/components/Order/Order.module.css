@@ -1,0 +1,53 @@
+.main {
+    background-color: #1C1C21;
+    border-radius: 30px;
+    width: 600px;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+}
+
+.imgContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+
+.details {
+    display: flex;
+    justify-content: space-between;
+}
+
+.price {
+    display: flex;
+}
+
+.ingredients {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.link {
+    text-decoration: none;
+    color: #f2f2f3;
+}
+.statusDone {
+    color: #2ac4ae;
+}
+
+.status{
+    color: white;
+}
+
+.counter {
+    width: 50px;
+    height: 50px;
+    border: 2px solid transparent;
+    background: linear-gradient(127deg, #5E17EB 0.08%, #E5097F 155.74%);
+    box-shadow: inset 0px 0px 0px 100vw black;
+    border-radius: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

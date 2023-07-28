@@ -43,3 +43,12 @@ display: flex;
     color: white;
     text-decoration: none;
 }
+
+.white{
+    color: white;
+    text-decoration: none;
+}
+.gray{
+    color: #8585AD;
+    text-decoration: none;
+}

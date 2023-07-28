@@ -14,13 +14,13 @@ import {
     addIngredient,
     deleteIngredientById,
     addBun,
-    updateItem,
+    updateItem, clearIngredients,
 } from '../../services/actions/actions'
 import {useDrop, useDrag} from 'react-dnd';
 import {getOrder} from "../../services/actions/get_order";
 import {closeModal, openModal} from "../../services/actions/modal";
 import {useNavigate} from "react-router-dom";
-
+import {clearOrderNumber} from "../../services/actions/actions";
 
 function RenderIngredients(props) {
     const {
@@ -133,7 +133,8 @@ function BurgerConstructor() {
     }
     const handelOnCloseItem = () => {
         setModalActive(false);
-        dispatch(closeModal)
+        dispatch(closeModal);
+        dispatch(clearOrderNumber());
     }
 
     const placeOrder = () => {
@@ -146,6 +147,7 @@ function BurgerConstructor() {
         dispatch(getOrder(res));
         handelOnClickItem()
         setModalActive(true);
+        dispatch(clearIngredients());
     };
 
     const totalPrice = React.useMemo(() => {

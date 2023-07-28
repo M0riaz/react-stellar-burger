@@ -15,7 +15,6 @@ import { useParams } from "react-router-dom";
      }, [dispatch]);
 
      const item = items.find(item => item._id === ingredientId);
-
     return (
         item ? (
         <div >

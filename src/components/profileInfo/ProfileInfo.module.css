@@ -1,0 +1,45 @@
+.page{
+    display: flex;
+    justify-content: center;
+}
+.container{
+    margin-top: 160px;
+    /*border: 1px solid white;*/
+    width: 1000px;
+    height: 100%;
+    display: flex;
+}
+.inputs{
+    display: flex;
+    flex-direction: column;
+    width: 480px;
+
+}
+.menu{
+    display: flex;
+    flex-direction: column;
+    width: 320px;
+    height: 192px;
+    justify-content: space-around;
+}
+.text{
+    width: 320px;
+}
+.link {
+    /*color: white;*/
+    /*text-decoration: none;*/
+    color: #8585AD;
+    text-decoration: none;
+}
+.linkin {
+    color: #8585AD;
+    text-decoration: none;
+}
+.buttonsBox {
+    display: flex;
+    justify-content: space-between;
+}
+.activeLink{
+    color: white;
+    text-decoration: none;
+}

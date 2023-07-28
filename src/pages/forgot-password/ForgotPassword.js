@@ -24,7 +24,7 @@ export const ForgotPassword = () => {
     return (
         <section className={style.page}>
             <div className={style.box}>
-                <h1 className="text text_type_main-medium"> scdsd Восстановление пароля</h1>
+                <h1 className="text text_type_main-medium"> Восстановление пароля</h1>
                 <form onSubmit={dataPass}>
                 <div className='mt-6'>
                     <EmailInput

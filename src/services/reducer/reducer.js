@@ -29,6 +29,12 @@ export const itemReducer = (state = initialState, action) => {
 
             }
         }
+        case "CLEAR_INGREDIENTS":
+            return {
+                ...state,
+                burgerConstructor: [],
+                bun: null
+            }
 
         case ADD_BUN: {
             return {
