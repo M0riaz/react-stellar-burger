@@ -1,7 +1,7 @@
 import style from './profile.module.css'
 import {Input, EmailInput, PasswordInput, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import React, {useState} from "react";
-import {Link, useNavigate} from 'react-router-dom';
+import {Link, useNavigate, NavLink} from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
 import { logOutCurrentUser, updateUserData} from "../../services/actions/regestrationUser";
 
@@ -39,28 +39,31 @@ export const Profile = () => {
         dispatch(updateUserData(form))
 
     }
-    //
+
     React.useEffect(() => {
-        if(!isAuth){
-            navigate("/login", {replace: true});
-        }else {
+
             navigate('/profile')
-        }
-    }, [navigate,isAuth ])
 
+    }, [])
 
+const linkStyle = ({ isActive }) => isActive ? style.activeLink : style.link;
 
     return (
         <section className={style.page}>
             <div className={style.container}>
                 <div>
-                    <div className={style.menu}>
-                        <Link to='/profile' className={`${style.link} text text_type_main-medium`}>Профиль</Link>
-                        <Link to='/ingredients/:id' className={`${style.linkin} text text_type_main-medium`}>История
-                            заказов</Link>
-                        <Link onClick={logOutClick} className={`${style.linkin} text text_type_main-medium`}>Выход
-                        </Link>
-                    </div>
+                    <nav >
+                        <div className={style.menu}>
+                            <span className= 'text text_type_main-medium'>
+                                <NavLink to='/profile' className ={linkStyle}>Профиль </NavLink>
+                            </span>
+                            <span className= 'text text_type_main-medium'>
+                            <NavLink to='/profile/order'  className ={linkStyle}>История заказов</NavLink>
+                            </span>
+                            <Link onClick={logOutClick} className={`${style.linkin} text text_type_main-medium`}>Выход</Link>
+                        </div>
+                    </nav>
+
                     <div className={style.text}>
                         <p className="mt-20 text text_type_main-default text_color_inactive">
                             В этом разделе вы можете изменить свои персональные данные</p>

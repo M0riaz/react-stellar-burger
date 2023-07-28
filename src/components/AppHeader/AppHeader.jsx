@@ -1,37 +1,50 @@
 import React from "react";
 import {Logo, BurgerIcon, ProfileIcon, ListIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './appHeader.module.css'
-import {Link} from 'react-router-dom';
+import {Link, NavLink, useLocation} from 'react-router-dom';
+import style from "../../pages/profile/profile.module.css";
 
 
 
 export default function AppHeader() {
-
+    const location = useLocation();
+    const linkStyle = ({ isActive }) => isActive ? style.activeLink : style.link;
     return (
         <header className={styles.header}>
             <div className={styles.header__box}>
                 <nav className={styles.header__navigation}>
                     <div className={styles.header__item}>
-                        <BurgerIcon type={"primary"}/>
-                        <p className='text text_type_main-default ml-3'>
-                            <Link to='/' className={`${styles.link} mr-5`}>Конструктор </Link>
-                        </p>
-
+                        {
+                            location.pathname === '/' ?
+                                <BurgerIcon type="primary" /> :
+                                <BurgerIcon type="secondary" />
+                        }
+                        <span className='text text_type_main-default ml-3 mr-5'>
+                            <NavLink to='/' className={linkStyle}>Конструктор </NavLink>
+                        </span>
 
                     </div>
                     <div className={`${styles.header__item} ml-2`}>
-                        <ListIcon type={"secondary"}/>
-                        <p className='text text_type_main-default text_color_inactive ml-3'>
-                            <a href='#' className={`${styles.linkInactive} mr-5`}>Лента заказов</a>
+                        {
+                            location.pathname === '/orders' ?
+                                <ListIcon type="primary" /> :
+                                <ListIcon type="secondary" />
+                        }
+                        <p className='text text_type_main-default mr-5 ml-3 '>
+                            <NavLink to='/orders' className={linkStyle} >Лента заказов</NavLink>
                         </p>
 
                     </div>
                 </nav>
                 <Logo/>
                 <div className={`${styles.header__item} `}>
-                    <ProfileIcon type={"secondary"}/>
-                    <p  className="text text_type_main-default text_color_inactive ml-2">
-                        <Link to={'/profile'} className={`${styles.linkInactive} mr-5`}>Личный кабинет </Link>
+                    {
+                        location.pathname === '/profile' ?
+                            <ProfileIcon type="primary" /> :
+                            <ProfileIcon type="secondary" />
+                    }
+                    <p  className="text text_type_main-default mr-5 ml-2">
+                        <NavLink to={'/profile'} className={linkStyle} >Личный кабинет </NavLink>
                     </p>
 
                 </div>
