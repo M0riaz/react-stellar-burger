@@ -3,7 +3,7 @@ import { Navigate, useLocation } from "react-router-dom";
 
 const ProtectedRouteElement = ({ onlyUnAuth = false, component }) => {
 
-   const email = useSelector((store) => store.regNewUser.email);
+    const email = useSelector((store) => store.regNewUser.email);
     const location = useLocation();
 
     if (onlyUnAuth && email) {

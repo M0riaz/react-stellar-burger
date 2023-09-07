@@ -5,11 +5,11 @@ import App from "./components/app/app";
 import reportWebVitals from "./reportWebVitals";
 import {Provider} from 'react-redux';
 import {BrowserRouter as Router} from 'react-router-dom';
-import {store} from "./services/store/store";
+import {rootReducer} from "./services/store/store";
 
 ReactDOM.render(
      <Router>
-        <Provider store={store}>
+        <Provider store={rootReducer}>
             <React.StrictMode>
                 <App/>
             </React.StrictMode>
