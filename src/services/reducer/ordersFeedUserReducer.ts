@@ -4,20 +4,23 @@ import {
     ORDERS_FEED_USER_WS_CONNECTING, ORDERS_FEED_USER_WS_ERROR, ORDERS_FEED_USER_WS_MESSAGE,
     ORDERS_FEED_USER_WS_OPEN, TOrdersFeedUser
 } from '../actions/ordersFeedUserAction'
-import {IOrder, IOrderRequest} from "../../types/order";
-import {IFeedOrders} from "../../types/FeedOrders";
+import {IOrder, IOneOrder, IOrderRequest, IFeedOrders} from "../../types/order";
 
 
 
 interface IOrderUserState {
     status: string,
-    orders:  IOrderRequest[],
+    orders:  IFeedOrders,
     connectingError: string
 }
 
 const initialState:IOrderUserState = {
     status: WebsocketStatus.OFFLINE,
-    orders: [],
+    orders: {
+        orders: [],
+        total: 0,
+        totalToday: 0
+    },
     connectingError: ''
 }
 
@@ -50,6 +53,7 @@ export const orderFeedUserReducer = (state : IOrderUserState = initialState, act
             }
 
         case ORDERS_FEED_USER_WS_MESSAGE:
+
             return {
                 ...state,
                 orders: action.payload

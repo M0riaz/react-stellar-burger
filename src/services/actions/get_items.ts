@@ -27,8 +27,8 @@ export const getItems: AppThunk = () => async (dispatch: AppDispatch) => {
 
     dispatch({type: GET_ITEMS_REQUEST});
     try {
-        const response = await dataIngredients();
-        const data: IItemsResponse = await checkResponse(response);
+        const data = await dataIngredients();
+        // const data: IItemsResponse = await checkResponse(response);
         if (data.success) {
             dispatch({
                 type: GET_ITEMS_SUCCESS,

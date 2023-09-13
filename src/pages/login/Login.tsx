@@ -1,34 +1,33 @@
 import style from './login.module.css'
 import {EmailInput, PasswordInput, Button} from '@ya.praktikum/react-developer-burger-ui-components';
-import React, {FC} from "react";
-import {Link, useNavigate} from 'react-router-dom';
-import {useDispatch} from "react-redux";
+import React, {FC, FormEvent} from "react";
+import {Link, Navigate, NavigateFunction, useLocation, useNavigate} from 'react-router-dom';
+// import {useDispatch} from "react-redux";
 import {loginCurrentUser} from "../../services/actions/loginCurrentUser";
 import {getUserData} from "../../services/actions/getUserData";
-import {useSelector} from "../../services/store/typesStore";
+import {useDispatch, useSelector} from "../../services/store/typesStore";
+import {useForm} from "../../hook/Form";
+
+interface IIsAuth{
+    isAuth: boolean
+}
 
 export const Login: FC = () => {
     const dispatch = useDispatch();
-    const [form, setForm] = React.useState({email: '', password: ''});
-    const {isAuth} = useSelector(state => state.regNewUser);
-    const navigate = useNavigate();
+    const {values: form, onChange} = useForm({email: '',  password: ''})
+    const {isAuth}:IIsAuth = useSelector(state => state.regNewUser);
+    const navigate: NavigateFunction = useNavigate();
 
-    const onChange = React.useCallback((e) => {
-        setForm(prevForm => ({...prevForm, [e.target.name]: e.target.value}));
-    }, []);
-
-    const onClick = React.useCallback((e) => {
+    const onClick = async(e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (form) {
-            dispatch(loginCurrentUser(form));
-
+            await dispatch(loginCurrentUser(form));
         } else {
             console.log('неверные данные ')
         }
+    };
 
-    }, [dispatch, form,]);
-
-    React.useEffect(() => {
+    React.useEffect( () => {
         if (isAuth) {
             dispatch(getUserData())
             navigate("/")

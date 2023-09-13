@@ -3,10 +3,20 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './ingredientDetails.module.css'
 import {useSelector} from "../../services/store/typesStore";
+import {IIngredient} from "../../types/ingridient";
 
 
  const IngredientDetails: FC = () => {
-    const item = useSelector(state => state.modal.item);
+
+     const storedItem: IIngredient | null = JSON.parse(localStorage.getItem("selectedIngredient") || "null");
+
+     // @ts-ignore
+     const item: IIngredient = useSelector(state => state.modal.item) || storedItem;
+     React.useEffect(() => {
+         if (item) {
+             localStorage.setItem("selectedIngredient", JSON.stringify(item));
+         }
+     }, [item]);
 
      if (!item) {
          return null;

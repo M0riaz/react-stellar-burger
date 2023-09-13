@@ -6,14 +6,19 @@ import style from "../../pages/profile/profile.module.css";
 import {useSelector} from "../../services/store/typesStore";
 
 
+interface IStyle{
+    isActive : boolean
+}
 
+interface IInfo{
+    name: string,
+    isAuth: boolean
+}
 
  const AppHeader: FC = () => {
-
     const location = useLocation();
-    // @ts-ignore
-     const linkStyle = ({ isActive }) => isActive ? style.activeLink : style.link;
-    const { name, isAuth} = useSelector(state => state.regNewUser);
+     const linkStyle = ({ isActive }: IStyle) => isActive ? style.activeLink : style.link;
+    const { name, isAuth}: IInfo = useSelector(state => state.regNewUser);
 
     return (
         <header className={`${styles.header} mt-10`}>

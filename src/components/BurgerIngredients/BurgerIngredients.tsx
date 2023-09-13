@@ -2,7 +2,7 @@ import styles from './burgerIngredients.module.css'
 import {CurrencyIcon, Tab, Counter} from '@ya.praktikum/react-developer-burger-ui-components';
 import React, {FC} from 'react';
 
-import {useDispatch} from 'react-redux';
+
 import {
     addBun,
     addIngredient,
@@ -10,7 +10,7 @@ import {
 import {useDrag} from "react-dnd";
 import {openModal} from "../../services/actions/modal";
 import {Link, useLocation} from "react-router-dom";
-import {useSelector} from "../../services/store/typesStore";
+import {useDispatch, useSelector} from "../../services/store/typesStore";
 import {IIngredient} from "../../types/ingridient";
 
 interface IBurgerElProps {
@@ -35,25 +35,16 @@ const BurgerElement: FC<IBurgerElProps> = (props: IBurgerElProps) => {
         }),
     });
 
-    const [modalActive, setModalActive] = React.useState(false)
-    const handleIngredientClick = () => {
 
-        if (data.type !== "bun") {
-            dispatch(addIngredient(data))
-            setModalActive(true);
-            dispatch(openModal(data))
-        } else {
-            setModalActive(true);
-            dispatch(addBun(data))
-            dispatch(openModal(data))
-        }
+    const handleIngredientClick = ():void => {
+        dispatch(openModal(data))
     };
-    const bunCount = React.useMemo(() => {
+    const bunCount:number = React.useMemo(() => {
         return activeBun.filter(item => item._id === data._id).length
     }, [activeBun])
 
 
-    const count = React.useMemo(() => {
+    const count:number = React.useMemo(() => {
         return burgerConstructor.filter(item => item._id === data._id).length
     }, [burgerConstructor, data._id]);
 
@@ -104,7 +95,7 @@ const BurgerIngredients: FC = () => {
     const bunRef = React.useRef<HTMLHeadingElement | null>(null);
     const sauceRef = React.useRef<HTMLHeadingElement | null>(null);
     const mainRef = React.useRef<HTMLHeadingElement | null>(null);
-    const handleScroll = () => {
+    const handleScroll = ():void => {
 
         const bunTop = bunRef.current?.getBoundingClientRect().top;
 

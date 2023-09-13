@@ -1,10 +1,10 @@
 import styles from './modalOverlay.module.css'
+import {FC} from "react";
 
-function ModalOverlay (props){
+const ModalOverlay:FC =  () => {
     return (
-        <div onClick={props.closeModal} className={styles.block}>
+        <div  className={styles.block}>
         </div>
     )
 }
-
 export default ModalOverlay

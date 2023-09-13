@@ -9,7 +9,7 @@ import React, {FC, useRef} from "react";
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
 
-import { useDispatch} from 'react-redux';
+// import { useDispatch} from 'react-redux';
 import {
     addIngredient,
     deleteIngredientById,
@@ -21,7 +21,7 @@ import {getOrder} from "../../services/actions/get_order";
 import {closeModal, openModal} from "../../services/actions/modal";
 import {useNavigate} from "react-router-dom";
 import {clearOrderNumber} from "../../services/actions/actions";
-import {useSelector} from "../../services/store/typesStore";
+import {useDispatch, useSelector} from "../../services/store/typesStore";
 import {IIngredient} from "../../types/ingridient";
 
 interface IRenderIng {
@@ -61,8 +61,8 @@ const RenderIngredients: FC<IRenderIng> = (props) => {
             const hoverBoundingRect = ref.current?.getBoundingClientRect()
             const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
             const clientOffset = monitor.getClientOffset()
-            // @ts-ignore
-            const hoverClientY =  clientOffset.y - hoverBoundingRect.top
+
+            const hoverClientY =  clientOffset!.y - hoverBoundingRect.top
             if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
                 return;
             }
@@ -88,7 +88,7 @@ const RenderIngredients: FC<IRenderIng> = (props) => {
 
     const opacity = isDragging ? 0 : 1;
 
-    const handleDeleteClick = () => {
+    const handleDeleteClick = (): void => {
         dispatch( deleteIngredientById(index));
     };
 
@@ -116,7 +116,7 @@ const BurgerConstructor:FC = () => {
     const dispatch = useDispatch();
     const {burgerConstructor, bun, activeBun} = useSelector(state => state.itemReducer);
     const {isAuth} = useSelector(state => state.regNewUser);
-    const order = useSelector(state => state.getOrder.order);
+    const {order,  orderRequest} = useSelector(state => state.getOrder);
     const navigate = useNavigate();
     const [, dropRef] = useDrop({
         accept: 'ingredient',
@@ -131,43 +131,36 @@ const BurgerConstructor:FC = () => {
             isOver: monitor.isOver(),
         }),
     });
-    const moveItem = (dragIndex: number, hoverIndex:number) => {
+    const moveItem = (dragIndex: number, hoverIndex:number):void => {
 
-        const dragItem = burgerConstructor[dragIndex]
-        const newItem = [...burgerConstructor]
+        const dragItem: IIngredient = burgerConstructor[dragIndex]
+        const newItem: IIngredient[] = [...burgerConstructor]
 
         newItem.splice(dragIndex, 1)
         newItem.splice(hoverIndex, 0, dragItem)
         dispatch(updateItem(newItem))
     }
 
-    // const handelOnClickItem = (data) => {
-    //
-    //     setModalActive(true);
-    //     dispatch(openModal(data))
-    //     console.log(openModal(data), 'gge')
-    // }
-    const handelOnCloseItem = () => {
+    const handelOnCloseItem = ():void => {
         setModalActive(false);
         dispatch(closeModal);
         dispatch(clearOrderNumber());
     }
 
-    const placeOrder = () => {
+    const placeOrder = ():void => {
         if(!isAuth){
           navigate('/login')
         }
-        const burgerConstructorIds = burgerConstructor.map(item => item._id)
-        const activeBuns = activeBun.map(item => item._id)
-        const res = [...activeBuns, ...burgerConstructorIds]
+        const burgerConstructorIds: string[] = burgerConstructor.map(item => item._id)
+        const activeBuns: string[] = activeBun.map(item => item._id)
+        const res: string[] = [...activeBuns, ...burgerConstructorIds]
         dispatch(getOrder(res));
-        // handelOnClickItem()
         setModalActive(true);
         dispatch(clearIngredients());
     };
 
-    const totalPrice = React.useMemo(() => {
-        const price = burgerConstructor.reduce((total, ingredient) => {
+    const totalPrice: number = React.useMemo(() => {
+        const price: number = burgerConstructor.reduce((total: number, ingredient: IIngredient) => {
             return total + ingredient.price;
         }, 0);
         return price + (bun ? bun.price * 2 : 0);
@@ -178,7 +171,9 @@ const BurgerConstructor:FC = () => {
             <section className={`${styles.section} ml-5 pl-5`}>
                 {modalActive && (
                     <Modal modalActive={modalActive} setModalActive={handelOnCloseItem}>
-                        <OrderDetails orderNumber={order}/>
+                        { orderRequest ? <div className={styles.load}>...Load</div> :
+                            <OrderDetails orderNumber={order}/>
+                        }
                     </Modal>
                 )}
 

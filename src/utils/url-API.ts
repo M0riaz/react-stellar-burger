@@ -1,4 +1,6 @@
 import {string} from "prop-types";
+import {tokens} from "../services/actions/get_order";
+import {extend} from "immutability-helper";
 
 interface IResetPasswordData {
     password: string,
@@ -16,22 +18,41 @@ interface ILoginUser {
     password: string
 }
 
+
+
 export const BASE_URL = 'https://norma.nomoreparties.space/api/';
 
 export const checkResponse = (res: Response) => {
     return res.ok ? res.json() : res.json().then((err) => Promise.reject(err))
 };
 
-export const dataIngredients = () => {
-    return fetch(
-        `${BASE_URL}ingredients`
-    )
+const request = (endpoint:string, options: RequestInit | undefined) => {
+    return fetch(`${BASE_URL}${endpoint}`, options)
+        .then(checkResponse)
+
 };
-export const dataOrder = (data:string[], token:any) => {
-    return fetch(`${BASE_URL}orders`, {
+
+// export const dataIngredients = (): Promise<Response> => {
+//     return fetch(
+//         `${BASE_URL}ingredients`
+//     )
+// };
+
+
+export const dataIngredients = () => {
+    return request('ingredients', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8'
+        }
+    });
+}
+
+export const dataOrder = (data: string[], token: string) => {
+    return request('orders', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json; charset=utf-8',
             authorization: token
         },
         body: JSON.stringify({
@@ -40,19 +61,23 @@ export const dataOrder = (data:string[], token:any) => {
     })
 };
 
-export const recoveryPassword = (email: string) => {
+interface IEmail {
+    email: string
+}
+
+export const recoveryPassword = ({email}: IEmail): Promise<Response> => {
     return fetch(`${BASE_URL}password-reset`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json; charset=utf-8',
         },
         body: JSON.stringify({
-            email
+            email: email
         })
     })
 }
 
-export const resetPassword = (data: IResetPasswordData) => {
+export const resetPassword = (data: IResetPasswordData): Promise<Response> => {
     const {password, token} = data;
     return fetch(`${BASE_URL}password-reset/reset`, {
         method: 'POST',
@@ -67,7 +92,7 @@ export const resetPassword = (data: IResetPasswordData) => {
 }
 
 
-export const registerNewUser = (data: IRegisterNewUserData) => {
+export const registerNewUser = (data: IRegisterNewUserData): Promise<Response> => {
     const {email, password, name} = data;
     return fetch(`${BASE_URL}auth/register`, {
         method: 'POST',
@@ -80,7 +105,7 @@ export const registerNewUser = (data: IRegisterNewUserData) => {
     })
 }
 
-export const loginUser = (data: ILoginUser) => {
+export const loginUser = (data: ILoginUser): Promise<Response> => {
     const {email, password} = data
     return fetch(`${BASE_URL}auth/login`, {
         method: 'POST',
@@ -94,7 +119,7 @@ export const loginUser = (data: ILoginUser) => {
     })
 }
 
-export const logOut = (data: string) => {
+export const logOut = (data: string): Promise<Response> => {
     return fetch(`${BASE_URL}auth/logout`, {
         method: 'POST',
         headers: {
@@ -106,50 +131,42 @@ export const logOut = (data: string) => {
     })
 }
 
-export const refreshToken = () => {
+export const refreshToken = (): Promise<Response> => {
     return fetch(`${BASE_URL}auth/token`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json;charset=utf-8",
         },
         body: JSON.stringify({
-            // token: token
             token: localStorage.getItem("refreshToken"),
 
         }),
     })
 };
-
-interface II{
+type RequestOptions =  {
     method: string,
-    headers : {
-        'Content-Type': string;
-        'authorization': string | null;
-    }
-    body?: any
-}
+    headers: {
+        'Content-Type': string,
+        'authorization': string| null,
+    },
+    body?: any,
+};
 
-export const fetchWithRefresh = async (url:string, options: II) => {
+export const fetchWithRefresh = async (url:string, options: RequestOptions) => {
     try {
-        // @ts-ignore
-        const res = await fetch(url, options);
+        const res = await fetch(url, options as RequestInit);
         return await checkResponse(res);
+    } catch (err:any) {
 
-    } catch (err: any) {
         if (err.message === "jwt expired") {
-            const refreshData = await refreshToken(); //обновляем токен
-            // @ts-ignore
+            const refreshData:any = await refreshToken(); //обновляем токен
             if (!refreshData.success) {
                 return Promise.reject(refreshData);
             }
-            // @ts-ignore
             localStorage.setItem("refreshToken", refreshData.refreshToken);
-            // @ts-ignore
             localStorage.setItem("accessToken", refreshData.accessToken);
-            // @ts-ignore
             options.headers.authorization = refreshData.accessToken;
-            // @ts-ignore
-            const res = await fetch(url, options); //повторяем запрос
+            const res = await fetch(url, options as RequestInit); //повторяем запрос
             return await checkResponse(res);
         } else {
             return Promise.reject(err);
@@ -157,18 +174,19 @@ export const fetchWithRefresh = async (url:string, options: II) => {
     }
 }
 //
-export const getUser = () => {
+export const getUser = (): Promise<any> => {
+
     return fetchWithRefresh(`${BASE_URL}auth/user`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json; charset=utf-8',
-             'authorization': localStorage.getItem('accessToken')
+            'authorization': localStorage.getItem('accessToken')
+        },
 
-        }
     })
 }
 
-export const updateUserInfo = (data: IRegisterNewUserData) => {
+export const updateUserInfo = (data: IRegisterNewUserData): Promise<any> => {
     const {email, password, name} = data
     return fetchWithRefresh(`${BASE_URL}auth/user`, {
         method: 'PATCH',

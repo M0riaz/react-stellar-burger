@@ -1,9 +1,10 @@
 import style from "../../pages/profile/profile.module.css";
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import React, {FC} from "react";
-import {useDispatch} from "react-redux";
+// import {useDispatch} from "react-redux";
 import {updateUserData} from "../../services/actions/updateUserData";
-import {useSelector} from "../../services/store/typesStore";
+import {useDispatch, useSelector} from "../../services/store/typesStore";
+import {useForm} from "../../hook/Form";
 
 interface IForm {
     email: string,
@@ -13,28 +14,22 @@ interface IForm {
 
 export const ProfileInfo:FC =() => {
     const dispatch = useDispatch();
-    const {email, name, isAuth} = useSelector((state) => state.regNewUser);
-    const [form, setForm] = React.useState<IForm>({email: email, name: name, password: ''});
+    const {email, name}:IForm = useSelector((state) => state.regNewUser);
 
+    const {values: form, setValues, onChange} = useForm({email, name, password: ''})
     const inputRef = React.useRef<HTMLInputElement | null>(null);
 
-    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault()
-        setForm(prevForm => ({ ...prevForm, [e.target.name]: e.target.value }));
+    const onReset = ():void => {
+        setValues({name,email, password: '' })
     };
 
-    const onReset = () => {
-        setForm({ name: name, email: email, password: '' })
-    };
-
-    const onIconClick = () => {
+    const onIconClick = ():void => {
         setTimeout(() => inputRef.current?.focus(), 0);
 
     }
     const saveUserChange = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         dispatch(updateUserData(form))
-
     }
 
     return <div>

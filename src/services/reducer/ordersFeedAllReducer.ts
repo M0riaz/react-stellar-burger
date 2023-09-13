@@ -4,19 +4,22 @@ import {
     ORDERS_FEED_ALL_WS_CONNECTING, ORDERS_FEED_ALL_WS_ERROR, ORDERS_FEED_ALL_WS_MESSAGE,
     ORDERS_FEED_ALL_WS_OPEN, TOrdersFeedAll
 } from "../actions/ordersFeedAllAction";
-import {IOrder} from "../../types/order";
-import {IFeedOrders} from  '../../types/FeedOrders'
+import {IFeedOrders, IOrder} from "../../types/order";
 
 
 interface IUpDateAllState {
     status: string,
-    orders: IFeedOrders[],
+    orders: IFeedOrders,
     connectingError: string
 }
 
 const initialState:IUpDateAllState = {
     status: WebsocketStatus.OFFLINE,
-    orders: [],
+    orders: {
+        orders: [],
+        total: 0,
+        totalToday: 0
+    },
     connectingError: ''
 }
 

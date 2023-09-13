@@ -12,9 +12,11 @@ export interface IOrder {
 }
 
 
+
+
 export interface IOrderRequest {
     name: string;
-    order: IOrder;
+    order: IOneOrder;
     success: boolean;
 }
 
@@ -24,7 +26,7 @@ export interface IOwner {
     name: string;
     updatedAt: string
 }
-export interface IOrderFromList {
+export interface IOneOrder {
     createdAt: string;
     ingredients: string[];
     name: string;
@@ -32,4 +34,11 @@ export interface IOrderFromList {
     status: string;
     updatedAt: string;
     _id: string;
+}
+
+export interface IFeedOrders {
+    orders: IOneOrder[],
+    success?: boolean,
+    total: number,
+    totalToday: number
 }

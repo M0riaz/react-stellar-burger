@@ -123,6 +123,7 @@ export const regNewUser = (state:IStateState = initialState, action: Types) => {
             };
         }
         case  GET_LOGIN_USER_SUCCESS: {
+            console.log('GET_LOGIN_USER_SUCCESS')
             return {
                 ...state,
                 accessToken: action.payload,
@@ -209,6 +210,7 @@ export const regNewUser = (state:IStateState = initialState, action: Types) => {
             };
         }
         case  GET_USER_DATA_SUCCESS: {
+            // console.log('GET_USER_DATA_SUCCESS')
             // localStorage.getItem("refreshToken", action.payload.refreshToken);
             return {
                 ...state,

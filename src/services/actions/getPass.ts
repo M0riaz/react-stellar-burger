@@ -22,10 +22,15 @@ export type TGetPass =
     IGetPassSuccess |
     IGetPassFailed;
 
-export const getPass: AppThunk = (Q: string) => async (dispatch: AppDispatch) => {
+interface IEmail {
+    email: string
+}
+
+export const getPass: AppThunk = ({email}: IEmail) => async (dispatch: AppDispatch) => {
+    console.log(email)
     dispatch({type: GET_PASS_REQUEST});
     try {
-        const response = await recoveryPassword(Q);
+        const response = await recoveryPassword({email});
         const data = await checkResponse(response);
         console.log(data)
         if (data.success) {

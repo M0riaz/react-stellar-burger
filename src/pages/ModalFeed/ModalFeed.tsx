@@ -6,14 +6,10 @@ import style from './ModalFeed.module.css'
 import {useSelector} from "../../services/store/typesStore";
 
 export const ModalFeed: FC = () => {
-
-    // @ts-ignore
     const orders = useSelector(state => state.ordersFeedAllReducer.orders.orders);
     const {id} = useParams();
-
     // @ts-ignore
     const order = orders?.find(order => order.number === +id)
-
     return (
         <>
             {

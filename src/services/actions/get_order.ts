@@ -15,17 +15,23 @@ interface IGetOrdersFailed {
     readonly payload : string
 }
 
+export enum tokens {
+    accessToken = 'accessToken',
+    refreshToken = 'refreshToken'
+}
+
 export type TOrdersRequest =
     IGetOrdersRequest |
     IGetOrdersSuccess |
     IGetOrdersFailed
 
+
 export const getOrder: AppThunk = (i: Array<string>) => async (dispatch: AppDispatch) => {
     dispatch({type: GET_ORDERS_REQUEST});
     try {
-        const accessToken = localStorage.getItem('accessToken');
-        const response = await dataOrder(i,accessToken );
-        const data = await checkResponse(response);
+        const accessToken = `${localStorage.getItem(tokens.accessToken)}`;
+        const data = await dataOrder(i,accessToken );
+        // const data = await checkResponse(response);
         if (data.success) {
             dispatch({
                 type: GET_ORDERS_SUCCESS,

@@ -15,7 +15,7 @@ interface IModalProps {
 
 const Modal: FC<IModalProps> = (props) => {
 const {modalActive, setModalActive, children} = props;
-    const handleKeyDown = React.useCallback((e) => {
+    const handleKeyDown = React.useCallback((e: KeyboardEvent) => {
         if (e.key === 'Escape') {
             setModalActive(false);
         }
@@ -29,14 +29,13 @@ const {modalActive, setModalActive, children} = props;
         };
     }, []);
 
-
     return ReactDOM.createPortal((
         <div>
-            <ModalOverlay onClick={setModalActive}/>
+            <ModalOverlay />
             <div>
                 <div className={modalActive ? `${styles.popup} ${styles.active}` : styles.popup}
                      onClick={() => setModalActive(false)}>
-                    <div className={styles.popupBox} onClick={e => e.stopPropagation()}>
+                    <div className={styles.popupBox} onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => e.stopPropagation()}>
                         <button type="button" className={styles.buttonClose} onClick={() => setModalActive(false)}>
                             <CloseIcon type="primary"/>
                         </button>

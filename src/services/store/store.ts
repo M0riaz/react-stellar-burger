@@ -1,4 +1,3 @@
-// import {rootReducer} from "../rootReducer/rootReducer";
 import {socketMiddleware} from "../middleware/socket-middleware";
 import {applyMiddleware, combineReducers, compose, createStore} from "redux";
 import thunk from "redux-thunk";
@@ -32,7 +31,6 @@ import {getPass} from "../reducer/registrationUser";
 import {regNewUser} from "../reducer/regNewUser";
 import {ordersFeedAllReducer} from "../reducer/ordersFeedAllReducer";
 import {orderFeedUserReducer} from "../reducer/ordersFeedUserReducer";
-// import {getUpdateUserReducer} from "../reducer/getUpdateUserReducer";
 import ReduxThunk from "redux-thunk";
 
 const orderFeedAll = {
@@ -55,30 +53,33 @@ const orderFeedUser = {
     wsConnecting: ORDERS_FEED_USER_WS_CONNECTING,
 }
 
-// @ts-ignore
-const accessToken: string | null = localStorage.getItem('accessToken') ? localStorage.getItem('accessToken').slice(7) : '';
+
+const accessToken: string | null = localStorage.getItem('accessToken') ? localStorage.getItem('accessToken')!.slice(7) : '';
 
 
 export const wsOrdersFeedAllUrl: string = 'wss://norma.nomoreparties.space/orders/all';
 export const wsOrdersFeedUserUrl: string = `wss://norma.nomoreparties.space/orders?token=${accessToken}`;
 
-
+const composeEnhancers =
+    // @ts-ignore
+    typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+        // @ts-ignore
+        ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
+        : compose;
 
 export const rootReducer = createStore(
     combineReducers({
         getOrder,
-        // getUpdateUserReducer,
         itemReducer,
         getItems,
         modal,
         regNewUser,
         ordersFeedAllReducer,
         orderFeedUserReducer,
-        // getUserDataReducer
         getPass,
 
     }),
-    compose(applyMiddleware(ReduxThunk),
+    composeEnhancers(applyMiddleware(ReduxThunk),
         applyMiddleware(socketMiddleware(orderFeedAll)),
         applyMiddleware(socketMiddleware(orderFeedUser))
     ))

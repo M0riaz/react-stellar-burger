@@ -1,57 +1,50 @@
 import style from './Order.module.css'
 import {CurrencyIcon, FormattedDate} from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch} from "react-redux";
-import React, {useState} from "react";
+// import { useDispatch} from "react-redux";
+import React, {FC, useState} from "react";
 
 import {Link, useLocation} from "react-router-dom";
 import {ImageElement} from "../ImageElement/ImageElement";
 import {openModal} from "../../services/actions/modal";
-import {useSelector} from "../../services/store/typesStore";
-import {IOrderFromList} from "../../types/order";
+import {useDispatch, useSelector} from "../../services/store/typesStore";
+import {IOneOrder} from "../../types/order";
 import {IIngredient} from "../../types/ingridient";
 
 
 interface IOrderProps {
-    item: IOrderFromList
+    item: IOneOrder
 }
 
-export const Order = (props: IOrderProps) => {
+export const Order: FC<IOrderProps> = (props) => {
     const {item} = props
     const items = useSelector(state => state.getItems.items)
 
     const orderItems = item.ingredients.map(ingredientId => {
         return items.find(item => item._id === ingredientId);
-    }).filter( item => item);
-
+    }).filter(item => item);
 
     const location = useLocation();
-    const [modalActive, setModalActive] = React.useState(false)
-
     const [marginLeft, setMarginLeft] = useState(0);
-
-    const ingredientId = item.number;
+    const ingredientId: number = item.number;
     const dispatch = useDispatch();
 
     React.useEffect(() => {
         setMarginLeft(prevMarginLeft => prevMarginLeft - 15);
     }, []);
 
-    const displayedItems = orderItems.slice(0, 6);
+    const displayedItems: (IIngredient | undefined)[] = orderItems.slice(0, 6);
 
     const orderStatus = () =>
         item.status === 'done' ? 'Выполнен' : item.status === 'pending' ? 'Готовится' : item.status === 'created' ? 'Создан' : 'Выполнен'
 
-    const orderStatusDone = item.status === 'done';
-    const
-        handleClick = () => {
-            setModalActive(true);
-            // @ts-ignore
-            dispatch(openModal(item))
-        }
+    const orderStatusDone: boolean = item.status === 'done';
+    const handleClick = (): void => {
+        dispatch(openModal(item))
+    }
 
-    const bunCount = orderItems.filter(item => item?.type === 'bun').length;
+    const bunCount: number = orderItems.filter(item => item?.type === 'bun').length;
 
-    const totalCost = orderItems.reduce((total, item) => {
+    const totalCost: number = orderItems.reduce((total, item) => {
         if (item?.type === 'bun' && bunCount === 1) {
             return total + item.price * 2;
         } else {
@@ -71,7 +64,6 @@ export const Order = (props: IOrderProps) => {
                     <span className='text text_type_main-default text_color_inactive mr-6'>
                          <FormattedDate date={new Date(item.createdAt)}/>
                     </span>
-
                 </div>
                 <p className='text text_type_main-medium ml-6 mt-5 mr-3'>{item.name}</p>
 

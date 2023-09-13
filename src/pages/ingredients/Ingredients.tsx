@@ -1,9 +1,10 @@
 import style from './ingredients.module.css'
 import React, {FC} from "react";
-import {  useDispatch,  } from "react-redux";
+// import {  useDispatch,  } from "react-redux";
 import {getItems} from "../../services/actions/get_items";
 import { useParams } from "react-router-dom";
-import {useSelector} from "../../services/store/typesStore";
+import {useDispatch, useSelector} from "../../services/store/typesStore";
+import {IIngredient} from "../../types/ingridient";
 
 
  const IngredientPage:FC = () => {
@@ -15,7 +16,7 @@ import {useSelector} from "../../services/store/typesStore";
          dispatch(getItems());
      }, [dispatch]);
 
-     const item = items.find(item => item._id === ingredientId);
+     const item: IIngredient | undefined = items.find(item => item._id === ingredientId);
     return (
         item ? (
         <div >

@@ -1,15 +1,20 @@
 import style from './OrderFeedStatistic.module.css'
 import {useSelector} from "../../services/store/typesStore";
-import {IOrderFromList} from "../../types/order";
+import {IOneOrder} from "../../types/order";
 import {FC} from "react";
 
+interface IOrder{
+    orders: IOneOrder[],
+    total: number,
+    totalToday: number
+}
 
 export const OrderFeedStatistic: FC = () => {
-    // @ts-ignore
-    const {orders, total, totalToday} = useSelector(state => state.ordersFeedAllReducer.orders);
 
-    const doneOrders = orders?.map( (i: IOrderFromList) =>  i.status === 'done' ? i.number : null);
-    const cookingOrders = orders?.map( (i: IOrderFromList) =>  i.status === 'pending' || i.status === 'created' ? i.number : null);
+    const {orders, total, totalToday}:IOrder = useSelector(state => state.ordersFeedAllReducer.orders);
+
+    const doneOrders = orders?.map( (i: IOneOrder) =>  i.status === 'done' ? i.number : null);
+    const cookingOrders = orders?.map( (i: IOneOrder) =>  i.status === 'pending' || i.status === 'created' ? i.number : null);
 
     return (
         <div>
@@ -18,7 +23,7 @@ export const OrderFeedStatistic: FC = () => {
                     <h2 className={`${style.headers} mb-6 text text_type_main-medium`}>Готовы:</h2>
                     <ul className={`${style.listReady} text text_type_digits-default`}>
                         {
-                            doneOrders?.slice(0, 20).map( (i: number, index: number )=> <li key={index}>{i}</li>)
+                            doneOrders?.slice(0, 20).map( (i:number|null, index: number )=> <li key={index}>{i}</li>)
                         }
                     </ul>
                 </div>
@@ -26,7 +31,7 @@ export const OrderFeedStatistic: FC = () => {
                     <h2 className={`${style.headers} mb-6 text text_type_main-medium`}>В работе:</h2>
                     <ul className={`${style.list} text text_type_digits-default`}>
                         {
-                            cookingOrders?.slice(0, 20).map( (i: number, index:number )=> <li key={index}>{i}</li>)
+                            cookingOrders?.slice(0, 20).map( (i:number|null, index:number )=> <li key={index}>{i}</li>)
                         }
                     </ul>
                 </div>

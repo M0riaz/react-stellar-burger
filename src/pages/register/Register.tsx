@@ -2,27 +2,17 @@ import style from './register.module.css'
 import {EmailInput, PasswordInput, Button, Input} from '@ya.praktikum/react-developer-burger-ui-components';
 import React, {FC, FormEvent} from "react";
 import { Link } from 'react-router-dom';
-import {useDispatch, useSelector} from "react-redux";
+// import {useDispatch, useSelector} from "react-redux";
 import {regNewUser} from "../../services/actions/regestrationUser";
+import {useDispatch} from "../../services/store/typesStore";
+import {useForm} from "../../hook/Form";
 
 export const Register: FC = () => {
     const dispatch = useDispatch();
-    const [form, setForm] = React.useState({email: '', name: '', password: ''});
-
+    const {values: form, onChange} = useForm({email: '', name: '', password: ''})
     const inputRef = React.useRef(null)
-    const onIconClick = () => {
-        // @ts-ignore
-        setTimeout(() => inputRef.current.focus(), 0)
-        alert('Icon Click Callback')
-    }
 
-    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault()
-        setForm(prevForm => ({ ...prevForm,  [e.target.name]: e.target.value }));
-    };
-
-
-    const onClick = (e: FormEvent) => {
+    const onClick = (e:FormEvent<HTMLFormElement>):void => {
         e.preventDefault()
      dispatch(regNewUser(form))
 
@@ -42,7 +32,6 @@ export const Register: FC = () => {
                     name={'name'}
                     error={false}
                     ref={inputRef}
-                    onIconClick={onIconClick}
                     errorText={'Ошибка'}
                     size={'default'}
                     extraClass="ml-1"

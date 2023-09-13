@@ -1,19 +1,17 @@
 import {Order} from "../../components/Order/Order";
 import style from './feed.module.css'
-import { useDispatch } from "react-redux";
-import {useSelector} from '../../services/store/typesStore'
+// import { useDispatch } from "react-redux";
+import {useDispatch, useSelector} from '../../services/store/typesStore'
 import {FC, useEffect} from "react";
 import {connectOrdersAll, disconnectOrdersAll} from "../../services/actions/ordersFeedAllAction";
 import {wsOrdersFeedAllUrl} from "../../services/store/store";
 import {OrderFeedStatistic} from '../../components/OrderFeedStatistic/OrderFeedStatistic'
 import {RootState} from "../../services/store/typesStore";
-import {IOneOrder} from "../../types/FeedOrders";
+import {IOneOrder} from "../../types/order";
 
 export const Feed:FC = () => {
     const dispatch = useDispatch();
-    // @ts-ignore
     const {orders} = useSelector((state: RootState )=> state.ordersFeedAllReducer.orders);
-
 
     useEffect(() => {
         dispatch(connectOrdersAll(wsOrdersFeedAllUrl))

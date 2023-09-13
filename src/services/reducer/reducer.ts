@@ -35,7 +35,7 @@ export const itemReducer = (state : IIngredientState = initialState, action: TIn
         case DELETE_INGREDIENT: {
             return {
                 ...state,
-                burgerConstructor: state.burgerConstructor.filter((_, index) => index !== action.payload)
+                burgerConstructor: state.burgerConstructor.filter((_:IIngredient, index:number) => index !== action.payload)
 
             }
         }

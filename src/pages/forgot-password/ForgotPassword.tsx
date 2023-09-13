@@ -2,23 +2,24 @@ import style from './forgotPassword.module.css'
 import {Button, EmailInput} from '@ya.praktikum/react-developer-burger-ui-components';
 import React, {ChangeEvent, FC, FormEvent} from "react";
 import { Link, useNavigate  } from 'react-router-dom';
-import {useDispatch} from "react-redux";
+// import {useDispatch} from "react-redux";
 
 import {getPass} from "../../services/actions/getPass";
+import {useDispatch} from "../../services/store/typesStore";
+import {useForm} from "../../hook/Form";
+
 
 export const ForgotPassword:FC = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [value, setValue] = React.useState('')
 
-    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setValue(e.target.value)
-    }
+    const {values, onChange} = useForm( {email: ''})
+
     const dataPass = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const promise = new Promise<void>((resolve) => {
-            dispatch(getPass(value));
+        const promise: Promise<void> = new Promise<void>((resolve) => {
+            dispatch(getPass(values));
             resolve();
         });
         await promise;
@@ -33,7 +34,7 @@ export const ForgotPassword:FC = () => {
                 <div className='mt-6'>
                     <EmailInput
                         onChange={onChange}
-                        value={value}
+                        value={values.email}
                         name={'email'}
                         isIcon={false}
                         placeholder={'укажите e-mail'}

@@ -3,7 +3,7 @@ import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burge
 import { FeedDetailsIngridient } from '../../components/FeedDetailsIndridient/FeedDetailsIngridient'
 import { useDispatch } from "react-redux";
 import React, { FC } from "react";
-import { IOneOrder } from '../../types/FeedOrders'
+import {IOneOrder} from "../../types/order";
 import { useSelector } from "../../services/store/typesStore";
 import { IIngredient } from "../../types/ingridient";
 
@@ -27,9 +27,9 @@ export const FeedDetails: FC<{ order: IOneOrder }> = (props) => {
     const orderStatus = () =>
         order.status === 'done' ? 'Выполнен' : order.status === 'pending' ? 'Готовится' : order.status === 'created' ? 'Создан' : 'Выполнен';
 
-    const orderStatusDone = order.status === 'done';
-    // @ts-ignore
-    const bunCount: number = element.filter((el) => el.type === 'bun').length;
+    const orderStatusDone:boolean = order.status === 'done';
+
+    const bunCount: number = element.filter((el) => el!.type === 'bun').length;
 
     // @ts-ignore
     const countedElements: CountedElement[] = element.reduce((acc: CountedElement[], el: IIngredient) => {

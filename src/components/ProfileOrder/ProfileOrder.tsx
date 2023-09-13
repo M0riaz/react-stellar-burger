@@ -1,29 +1,28 @@
 import style from './ProfileOrder.module.css'
 import React, {FC, useEffect} from "react";
 import {Order} from "../Order/Order";
-import {useDispatch} from "react-redux";
+// import {useDispatch} from "react-redux";
 import {connectOrdersUser, disconnectOrdersUser} from "../../services/actions/ordersFeedUserAction";
-import {useSelector} from "../../services/store/typesStore";
-import {IOrderFromList} from "../../types/order";
+import {useDispatch, useSelector} from "../../services/store/typesStore";
+import {IOneOrder} from "../../types/order";
 
-
-
-export const ProfileOrder = () => {
+export const ProfileOrder: FC = () => {
     const dispatch = useDispatch();
-    const accessToken = localStorage.getItem('accessToken') ? localStorage.getItem('accessToken')?.slice(7) : '';
+
     useEffect(() => {
+        const accessToken = localStorage.getItem('accessToken') ? localStorage.getItem('accessToken')?.slice(7) : '';
         dispatch(connectOrdersUser(`wss://norma.nomoreparties.space/orders?token=${accessToken}`))
         return () => {
             dispatch(disconnectOrdersUser())
         }
     },[])
 
-    // @ts-ignore
-    const orders = useSelector((state) => state.orderFeedUserReducer.orders.orders);
+
+    const  orders :Array<IOneOrder> = useSelector((state) => state.orderFeedUserReducer.orders.orders);
 
     return (
             <section className={`${style.main} ml-15`}>
-                {orders?.map((item: IOrderFromList) => ( <Order item={item} key={item._id}/>)) }
+                {orders?.map((item: IOneOrder) => ( <Order item={item} key={item._id}/>)) }
             </section>
     )
 }

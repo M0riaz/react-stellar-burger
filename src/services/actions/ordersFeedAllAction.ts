@@ -1,5 +1,4 @@
-import {IOrder} from "../../types/order";
-import {IFeedOrders} from "../../types/FeedOrders";
+import {IFeedOrders, IOrder} from "../../types/order";
 
 export const ORDERS_FEED_ALL_CONNECT:'ORDERS_FEED_ALL_CONNECT' = 'ORDERS_FEED_ALL_CONNECT';
 export const ORDERS_FEED_ALL_DISCONNECT:'ORDERS_FEED_ALL_DISCONNECT' = 'ORDERS_FEED_ALL_DISCONNECT';
@@ -28,7 +27,7 @@ interface IOrdersFeedAllWsClose{
 }
 interface IOrdersFeedAllWsMessage {
     readonly type : typeof ORDERS_FEED_ALL_WS_MESSAGE
-    readonly payload : IFeedOrders[]
+    readonly payload : IFeedOrders
 }
 interface IOrdersFeedAllWsError {
     readonly type : typeof ORDERS_FEED_ALL_WS_ERROR

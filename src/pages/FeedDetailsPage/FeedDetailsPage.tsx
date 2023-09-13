@@ -1,10 +1,10 @@
 import {FeedDetails} from "../FeedDetails/FeedDetails";
-import {useDispatch} from "react-redux";
+// import {useDispatch} from "react-redux";
 import {useParams} from "react-router-dom";
 import React, {FC} from "react";
 import {connectOrdersAll, disconnectOrdersAll} from "../../services/actions/ordersFeedAllAction";
 import {wsOrdersFeedAllUrl} from "../../services/store/store";
-import {useSelector} from "../../services/store/typesStore";
+import {useDispatch, useSelector} from "../../services/store/typesStore";
 
 export const FeedDetailsPage: FC = () => {
 
@@ -16,21 +16,16 @@ export const FeedDetailsPage: FC = () => {
 
     }, []);
 
-    // @ts-ignore
     const orders = useSelector(state => state.ordersFeedAllReducer.orders.orders);
     const dispatch = useDispatch()
     const {id} = useParams();
-
     // @ts-ignore
     const order = orders?.find((order )=> order.number === +id)
-
-
     return (
         <>
             {
                 order &&
                 <div>
-
                     <FeedDetails order={order} />
                 </div>
             }

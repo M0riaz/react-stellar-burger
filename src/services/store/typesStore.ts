@@ -23,9 +23,12 @@ import {
 
 export type RootState = ReturnType<typeof rootReducer.getState>;
 
+class T {
+}
+
 export type TActions =
     TIngredientControl |
-    TModal |
+    TModal<T> |
     TItemsRequest |
     TOrdersRequest |
     TOrdersFeedAll |

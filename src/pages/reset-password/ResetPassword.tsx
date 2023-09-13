@@ -2,8 +2,9 @@ import style from './resetPassword.module.css'
 import {PasswordInput, Button, Input} from '@ya.praktikum/react-developer-burger-ui-components';
 import React, {FC, FormEvent} from "react";
 import {Link, useNavigate} from 'react-router-dom';
-import {useDispatch} from "react-redux";
+// import {useDispatch} from "react-redux";
 import {resetPass} from "../../services/actions/resetPass";
+import {useDispatch} from "../../services/store/typesStore";
 
 export const ResetPassword: FC = () => {
     const dispatch = useDispatch();
@@ -11,18 +12,10 @@ export const ResetPassword: FC = () => {
     const [password, setPassword] = React.useState('')
     const navigate = useNavigate();
     const onChangePasss = (e: React.ChangeEvent<HTMLInputElement>) => {
-
         setPassword(e.target.value)
     }
 
-    const inputRef = React.useRef(null)
-    const onIconClick = () => {
-        // @ts-ignore
-        setTimeout(() => inputRef.current.focus(), 0)
-        alert('Icon Click Callback')
-    }
-
-    const onClick = (e: FormEvent) => {
+    const onClick = (e: FormEvent<HTMLFormElement>):void => {
         e.preventDefault()
         const values = { password, token}
         dispatch(resetPass(values))
@@ -51,8 +44,6 @@ export const ResetPassword: FC = () => {
                         value={token}
                         name={'name'}
                         error={false}
-                        ref={inputRef}
-                        onIconClick={onIconClick}
                         errorText={'Ошибка'}
                         size={'default'}
                         extraClass="ml-1"
