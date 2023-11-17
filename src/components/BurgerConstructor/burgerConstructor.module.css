@@ -29,3 +29,8 @@ display: flex;
 .ingredients::-webkit-scrollbar-thumb {
     background-color:  #8585AD;
 }
+.load {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
